@@ -5,12 +5,15 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
+        
+        <h:outputStylesheet library="css" name="compras.css" />
         <title>Facelet Title</title>
     </h:head>
     <h:body>
         
-        <div class="card">
 
+        <div class="card">
+    
     <p:tabMenu activeIndex="#{param.i}">
         <p:menuitem value="Tiendas" outcome="faces/Compras" icon="pi pi-fw pi-home">
             <f:param name="i" value="0"/>
@@ -31,103 +34,40 @@
             
             
 </div>
+  
 
-<script>
-    function handleDrop(event, ui) {
-        var droppedProduct = ui.draggable;
 
-        droppedProduct.fadeOut('fast');
-    }
-</script>
+<p:card style="width: 25rem; margin-bottom: 2em">
+    <f:facet name="title">
+        Simple Card
+    </f:facet>
 
-<div class="card">
-    <h:form id="productForm">
-        <p:dataView id="availableProducts" var="product" value="#{dndProductsView.products}" rows="9" layout="grid" gridIcon="pi pi-th-large" >
-            <p:dataViewGridItem>
-                <p:panel id="pnl" header="#{product.name}" style="text-align:center">
-                    <h:panelGrid columns="1" style="width:100%">
-                        <p:graphicImage name="/demo/images/product/#{product.image}"/>
-                    </h:panelGrid>
-                </p:panel>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
 
-                <p:draggable for="pnl" revert="true" handle=".ui-panel-titlebar" stack=".ui-panel"/>
-            </p:dataViewGridItem>
-        </p:dataView>
+</p:card>
 
-        <p:fieldset id="selectedProducts" legend="Selected Products" style="margin-top:20px">
-            <p:outputPanel id="dropArea">
-                <h:outputText value="!!!Drop here!!!" rendered="#{empty dndProductsView.droppedProducts}"
-                              style="font-size:24px;"/>
-                <p:dataTable id="selectedProductsTable" var="product" value="#{dndProductsView.droppedProducts}"
-                             rendered="#{not empty dndProductsView.droppedProducts}">
-                    <p:column headerText="Code">
-                        <h:outputText value="#{product.code}"/>
-                    </p:column>
+<p:card style="width: 25em">
+    <f:facet name="header">
+        <img alt="user header" src="../../resources/demo/images/usercard.png"/>
+    </f:facet>
+    <f:facet name="title">
+        Advanced Card
+    </f:facet>
+    <f:facet name="subtitle">
+        Card subtitle
+    </f:facet>
 
-                    <p:column headerText="Name">
-                        <h:outputText value="#{product.name}"/>
-                    </p:column>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
 
-                    <p:column headerText="Category">
-                        <h:outputText value="#{product.category}"/>
-                    </p:column>
-
-                    <p:column headerText="Quantity">
-                        <h:outputText value="#{product.quantity}"/>
-                    </p:column>
-
-                    <p:column style="width:32px">
-                        <p:commandButton update=":productForm:display" oncomplete="PF('productDialog').show()"
-                                         icon="pi pi-search">
-                            <f:setPropertyActionListener value="#{product}"
-                                                         target="#{dndProductsView.selectedProduct}"/>
-                        </p:commandButton>
-                    </p:column>
-                </p:dataTable>
-            </p:outputPanel>
-        </p:fieldset>
-
-        <p:droppable for="selectedProducts" tolerance="pointer" activeStyleClass="ui-state-highlight"
-                     datasource="availableProducts" onDrop="handleDrop">
-            <p:ajax listener="#{dndProductsView.onProductDrop}" update="dropArea availableProducts"/>
-        </p:droppable>
-
-        <p:dialog header="Product Detail" widgetVar="productDialog" resizable="false" draggable="false"
-                  showEffect="fade" hideEffect="fade" modal="true">
-            <p:outputPanel id="display">
-                <p:column rendered="#{not empty dndProductsView.selectedProduct}">
-                    <div class="product">
-                        <div class="product-grid-item card" style="margin-bottom: 0">
-                            <div class="product-grid-item-top">
-                                <div>
-                                    <i class="pi pi-tag product-category-icon"/>
-                                    <span class="product-category">#{dndProductsView.selectedProduct.category}</span>
-                                </div>
-                                <span class="product-badge status-#{dndProductsView.selectedProduct.inventoryStatus.name().toLowerCase()}">#{dndProductsView.selectedProduct.inventoryStatus.text}</span>
-                            </div>
-                            <div class="product-grid-item-content">
-                                <p:graphicImage
-                                        name="demo/images/product/#{dndProductsView.selectedProduct.image}"/>
-                                <div class="product-name">#{dndProductsView.selectedProduct.name}</div>
-                                <div class="product-description">#{dndProductsView.selectedProduct.description}</div>
-                                <p:rating readonly="true" value="#{dndProductsView.selectedProduct.rating}"/>
-                            </div>
-                            <div class="product-grid-item-bottom">
-                                <h:outputText value="#{dndProductsView.selectedProduct.price}"
-                                              styleClass="product-price">
-                                    <f:convertNumber currencySymbol="$" type="currency"/>
-                                </h:outputText>
-                                <p:commandButton value="Add To Cart" icon="pi pi-shopping-cart"
-                                                 disabled="#{dndProductsView.selectedProduct.inventoryStatus == 'OUTOFSTOCK'}">
-                                </p:commandButton>
-                            </div>
-                        </div>
-                    </div>
-                </p:column>
-            </p:outputPanel>
-        </p:dialog>
-    </h:form>
-</div>
+    <f:facet name="footer">
+        <p:commandButton icon="pi pi-check" value="Save"/>
+        <p:commandButton icon="pi pi-times" value="Cancel" styleClass="ui-button-secondary" style="margin-left: .5em"/>
+    </f:facet>
+</p:card>
+        
+       
         
         
     </h:body>

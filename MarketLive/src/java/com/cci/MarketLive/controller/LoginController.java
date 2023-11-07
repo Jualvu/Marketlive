@@ -47,15 +47,16 @@ public class LoginController implements Serializable {
     public void ingresar(){
        
         ServicioUsuario servicioUsuario = new ServicioUsuario();
+        int user = servicioUsuario.consultar(this.nombre, this.clave);
         FacesContext.getCurrentInstance().addMessage("sticky-key", new FacesMessage(FacesMessage.SEVERITY_ERROR,this.nombre ,this.clave));
         //Un usuario tipo Cliente accede
-        if(servicioUsuario.consultar(this.nombre, this.clave)==1){
+        if(user==1){
             redireccionar("/faces/Compras.xhtml");
             
             
         }
         //Un usuario tipo Admin accede
-        else if(servicioUsuario.consultar(this.nombre, this.clave)==2){
+        else if(user==2){
             //redireccionar();
         }
         

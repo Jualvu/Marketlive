@@ -16,60 +16,37 @@ import java.sql.SQLException;
 public class ServicioUsuario extends Service {
     
     
-    public int consultar(String nombre, String clave){
-        /*
-        resultados :
-        
-        0 = no existe usuario
-        1 = existe un usuario tipo Cliente
-        2 = existe un usuario tipo Admin
-        
-        
-        */
-        
+    public int consultar(String usuario, String clave){
         int result = 0;
         
         try {
-            
-            PreparedStatement stmt = super.getConexion().prepareStatement("SELECT nombre, clave, administrador FROM marketlive.usuario");
+
+            PreparedStatement stmt = super.getConexion().prepareStatement("SELECT nombre, clave FROM usuario");
             ResultSet rs = stmt.executeQuery();
             
   
             while (rs.next()){
                 
-                String nombre2 = rs.getString("nombre");
+                String usuario2 = rs.getString("nombre");
                 String clave2 = rs.getString("clave");
-                int admin2 = rs.getInt("administrador");
 
-                if(nombre.equals(nombre2) && clave.equals(clave2)){
+                if(usuario.equals(usuario2) && clave.equals(clave2) ){
                     result = 1;
-                    /*
-                    if(admin2==0){
-                        result = 1;
-                    }else if(admin2==1){
-                        result = 2;
-                    }
-                    */
-                }else{
-                    
-                    result = 8;
-                    
                 }
             }
 
             rs.close();
             stmt.close();
+            
         } catch (SQLException ex) {
             //System.out.println("Error al abrir Conexión: " + ex.getMessage());
-            result= 5;
+            result= 7;
             ex.printStackTrace();
         }
 
         return result;
         
     }
-    
-    
     
     
     
