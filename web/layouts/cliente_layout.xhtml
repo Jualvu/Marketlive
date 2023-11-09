@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+        <h:outputStylesheet library="css" name="cliente_layout.css" />
+        <title>Facelet Title</title>
+    </h:head>
+
+    <h:body>
+
+        <header>
+            <nav class="navbar_layout">
+                <h:form>
+                    <ul>
+                        <li>
+                            <a href="#" class="link_nav">Inicio</a>
+                        </li>
+                        <li>
+                            <a href="#" class="link_nav">Tiendas</a>
+                        </li>
+                        <li>
+                            <h:panelGroup rendered="#{empty loginController.correo}">
+                                <h:commandLink action="#{rutasController.redireccionar('login.xhtml')}" value="Iniciar Sesion" class="link_nav"/>
+                            </h:panelGroup>
+                        </li>
+                        <li>
+                            <h:panelGroup rendered="#{empty loginController.correo}">
+                                <h:commandLink action="#{rutasController.redireccionar('login.xhtml')}" value="Registrarse" class="link_nav"/>
+                            </h:panelGroup>
+                        </li>
+                        <li>
+                            <h:panelGroup rendered="#{not empty loginController.correo}">
+                                <h:commandLink action="#{loginController.cerrarSesion()}" value="Cerrar Sesion" class="link_nav"/>
+                            </h:panelGroup>
+                        </li>
+                    </ul>
+                </h:form>
+            </nav>
+
+        </header>
+
+        <main>
+            <ui:insert name="main" />
+        </main>
+
+        <footer>
+            <div class="container_footer">
+                <h2>MarketLive</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.</p>
+            </div>
+        </footer>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    </h:body>
+</html>

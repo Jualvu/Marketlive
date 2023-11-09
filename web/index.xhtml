@@ -1,0 +1,91 @@
+<ui:composition template="/layouts/cliente_layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="main">
+
+  
+<div class="card product">
+    <h:form id="form" >
+        
+        
+        
+        <p:dataView var="producto" value="#{productoController.productos}" rows="12" paginator="true"
+                    rowsPerPageTemplate="6,12,16"
+                    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    gridIcon="pi pi-th-large" listIcon="pi pi-bars">
+
+            <p:dataViewGridItem>
+                <div class="product-grid-item card border-1">
+                    
+                    <div class="product-grid-item-top">
+                        <div>
+                            <i class="pi pi-tag product-category-icon"/>
+                            <span class="product-category">#{producto.tipo}</span>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="product-grid-item-content">
+                        <p:graphicImage name="note10.jpg" library="images"/>
+                        <div class="product-name">#{producto.nombre}</div>
+                        <div class="product-description">#{producto.descripcion}</div>
+                        
+                    </div>
+                    
+                    
+                    <div class="product-grid-item-bottom">
+                        <h:outputText value="#{producto.precio}" styleClass="product-price">
+                            <f:convertNumber currencySymbol="$" type="currency"/>
+                        </h:outputText>
+                        <p:commandButton type="button"
+                                            value="Añadir al carrito"
+                                            icon="pi pi-shopping-cart"
+                                            
+                                            >
+                        </p:commandButton>
+                    </div>
+                    
+                    
+                </div>
+            </p:dataViewGridItem>
+
+            <p:dataViewListItem>
+                <div class="product-list-item">
+                    <p:graphicImage name="/images/applewatch3.jpg"/>
+                    
+                    
+                    <div class="product-list-detail">
+                        <div class="product-name">#{producto.nombre}</div>
+                        <div class="product-description">#{producto.descripcion}</div>
+                        
+                        <i class="pi pi-tag product-category-icon"/><span
+                            class="product-category">#{product.tipo}</span>
+                    </div>
+                    
+                    
+                    <div class="product-list-action">
+                        <h:outputText value="#{producto.precio}" styleClass="product-price">
+                            <f:convertNumber currencySymbol="$" type="currency"/>
+                        </h:outputText>
+                        <p:commandButton type="button"
+                                         value="Añadir al carrito"
+                                         icon="pi pi-shopping-cart">
+                                        
+                        </p:commandButton>
+
+                    </div>
+                    
+                    
+                </div>
+            </p:dataViewListItem>
+        </p:dataView>
+    </h:form>
+</div>
+
+
+    </ui:define>
+</ui:composition>
+
