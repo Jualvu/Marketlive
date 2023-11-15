@@ -1,29 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cci.MarketLive.service;
 
-/**
- *
- * @author julio
- */
+
 public class CompraTO {
     
     private int id;
-    private int idusuario;
-    private int idproducto;
-    private int cantidad;
+    private String estado;
+    private int idDatosCompras;
 
     public CompraTO() {
     }
 
-    public CompraTO(int id, int idusuario, int idproducto, int cantidad) {
+    public CompraTO(int id, String estado, int idDatosCompras) {
         this.id = id;
-        this.idusuario = idusuario;
-        this.idproducto = idproducto;
-        this.cantidad = cantidad;
+        this.estado = estado;
+        this.idDatosCompras = idDatosCompras;
     }
 
     public int getId() {
@@ -34,28 +24,24 @@ public class CompraTO {
         this.id = id;
     }
 
-    public int getIdusuario() {
-        return idusuario;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setIdusuario(int idusuario) {
-        this.idusuario = idusuario;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
-    public int getIdproducto() {
-        return idproducto;
+    public int getIdDatosCompras() {
+        return idDatosCompras;
     }
 
-    public void setIdproducto(int idproducto) {
-        this.idproducto = idproducto;
+    public void setIdDatosCompras(int idDatosCompras) {
+        this.idDatosCompras = idDatosCompras;
     }
 
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    void add(CompraTO compraTO) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

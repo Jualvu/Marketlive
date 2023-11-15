@@ -29,7 +29,7 @@ public class ServicioProducto extends Conexion implements ICrud<ProductoTO> {
             stmt.setString(5, objeto.getDescripcion());
             stmt.setDouble(6, objeto.getPrecio());
             stmt.setDouble(7, objeto.getStock());
-            stmt.setInt(8, 1);
+            stmt.setInt(8, loginController.getId());
 
             stmt.execute();
 
