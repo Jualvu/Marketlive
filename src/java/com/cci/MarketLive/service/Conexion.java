@@ -4,14 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
  
-public abstract class Service {
+public abstract class Conexion {
  
     private Connection conectar = null;
-    private String url = "jdbc:mysql://localhost:3306/marketlive?serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL";
+    private String url = "jdbc:mysql://localhost:3306/market_live?serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL";
     private String usuario = "root";
-    private String password = "Root123!";
+    private String password = "admin";
  
-    public Service() {
+    public Conexion() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {

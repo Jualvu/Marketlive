@@ -2,27 +2,36 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <h:outputStylesheet library="css" name="auth.css" />
         <title>Facelet Title</title>
     </h:head>
     <h:body>
+
         <h:form class="login_form">
             <div class="login_container">
                 <h2> [ MarketLive ] </h2>
                 <hr/>
-                <h3>Iniciar Sesion</h3>
+                <h3> Registrarse </h3>
                 <p:growl id="msg" showDetail="true"/>
+                <p:inputText value="#{authController.nombre}" placeholder="Nombre"/>
                 <p:inputText value="#{authController.correo}" placeholder="Correo" />
-                <br/>
                 <p:password value="#{authController.password}" placeholder="Clave" />
-                <br/>
-                <p:commandButton value="Ingresar al sistema" actionListener="#{authController.ingresar()}" update="msg"/>
+
+                <p:selectOneMenu id="role_id" value="#{authController.roleId}" rendered="#{empty sessionScope.usuarioTO.roleNombre eq 'admin'}" style="width:300px; margin:1rem 0">
+                    <f:selectItem itemLabel="Selecciona un rol" itemValue="" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="Admin de tienda" itemValue="2"/>
+                    <f:selectItem itemLabel="Cliente" itemValue="3"/>
+                </p:selectOneMenu>
+
+                <p:commandButton value="Registrarse" actionListener="#{authController.registrarse()}" update="msg"/>
                 <hr/>
                 <div class="container_links">
                     <p:commandLink value="Ir a Inicio" class="link_auth" action="#{rutasController.redireccionar('index.xhtml')}" />
-                    <p:commandLink value="Registrarme" class="link_auth" action="#{rutasController.redireccionar('register.xhtml')}" />
+                    <p:commandLink value="Iniciar sesion" class="link_auth" action="#{rutasController.redireccionar('login.xhtml')}" />
                 </div>
             </div>
         </h:form>
