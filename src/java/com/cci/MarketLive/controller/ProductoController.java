@@ -3,6 +3,7 @@ package com.cci.MarketLive.controller;
 import com.cci.MarketLive.to.ProductoTO;
 import com.cci.MarketLive.service.ProductoService;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -18,23 +19,34 @@ public class ProductoController implements Serializable {
     private List<ProductoTO> productos;
     private ProductoTO selectedProducto;
     private List<ProductoTO> selectedProductos;
-
+    private List<ProductoTO> busqueda;
+    
     private ProductoService servicioProducto;
 
+    String producto;
+    
     public ProductoController() {
 
         productos = new ArrayList<>();
         selectedProductos = new ArrayList<>();
-
+        busqueda = new ArrayList<>();
+        
         try {
             servicioProducto = new ProductoService();
             this.productos = servicioProducto.readAll();
-
+            this.busqueda = servicioProducto.listarBusqueda(producto);
+           
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void buscar(String producto) throws SQLException{
+        
+        this.busqueda = servicioProducto.listarBusqueda(producto);
+    }
+    
+    
     public List<ProductoTO> getProductos() {
         return productos;
     }
@@ -59,6 +71,32 @@ public class ProductoController implements Serializable {
         this.selectedProductos = selectedProductos;
     }
 
+    public List<ProductoTO> getBusqueda() {
+        return busqueda;
+    }
+
+    public void setBusqueda(List<ProductoTO> busqueda) {
+        this.busqueda = busqueda;
+    }
+
+    public ProductoService getServicioProducto() {
+        return servicioProducto;
+    }
+
+    public void setServicioProducto(ProductoService servicioProducto) {
+        this.servicioProducto = servicioProducto;
+    }
+
+    public String getProducto() {
+        return producto;
+    }
+
+    public void setProducto(String producto) {
+        this.producto = producto;
+    }
+
+    
+    
     public void openNew() {
         this.selectedProducto = new ProductoTO();
     }

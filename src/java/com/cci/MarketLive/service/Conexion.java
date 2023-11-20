@@ -9,7 +9,7 @@ public abstract class Conexion {
     private Connection conectar = null;
     private String url = "jdbc:mysql://localhost:3306/market_live?serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL";
     private String usuario = "root";
-    private String password = "admin";
+    private String password = "Root123!";
  
     public Conexion() {
         try {

@@ -16,7 +16,9 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
     PreparedStatement stmt;
     ResultSet rs;
     List<ProductoTO> productos;
-
+    
+    
+    
     @Override
     public boolean create(ProductoTO objeto) throws SQLException {
         try {
@@ -110,6 +112,50 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
         return productos;
     }
 
+    public List<ProductoTO> listarBusqueda(String producto) throws SQLException {
+        productos = new ArrayList<ProductoTO>();
+
+        try {
+            stmt = super.getConexion().prepareStatement("SELECT * FROM productos WHERE nombre=?");
+            stmt.setString(1, producto);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ProductoTO productoTO = new ProductoTO();
+
+                int id = rs.getInt("id");
+                String tipo = rs.getString("tipo");
+                String codigo = rs.getString("codigo");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                double precio = rs.getDouble("precio");
+                double stock = rs.getDouble("stock");
+                int usuarioId = rs.getInt("usuario_id");
+
+                productoTO.setId(id);
+                productoTO.setTipo(tipo);
+                productoTO.setCodigo(codigo);
+                productoTO.setNombre(nombre);
+                productoTO.setDescripcion(descripcion);
+                productoTO.setPrecio(precio);
+                productoTO.setStock(stock);
+                productoTO.setUsuarioId(usuarioId);
+
+                productos.add(productoTO);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null && rs != null) {
+                rs.close();
+                stmt.close();
+            }
+        }
+
+        return productos;
+    }
+    
     @Override
     public List<ProductoTO> readAllByUsuario(int usuarioId) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
