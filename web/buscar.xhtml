@@ -1,0 +1,90 @@
+<ui:composition template="/layouts/cliente_layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+                    
+    <ui:define name="main">
+       
+        
+            
+        <div>
+
+            <h:form>
+                <h:outputLabel for="txt1" value="Busar producto:   " style="height:50px;width:140px;"/>
+                <p:inputText id="txt1" value="#{productoController.producto}" required="true" label="Text 1" style="height:40px;width:300px;" >
+                    <f:validateLength minimum="2"/>
+                </p:inputText>
+
+                <p:commandButton icon="pi pi-search" value="Buscar" styleClass="ui-button-success" style="width:120px;height:40px; text-align: center;" 
+                                 actionListener="#{productoController.buscar(productoController.producto)}" update="productos"/>
+
+            </h:form>
+
+
+        </div>
+
+        
+        
+        <div>
+            <h3>Productos encontrados</h3>
+        </div>
+        
+        
+        <h:form id="productos">
+            
+        <div class="productos_container" style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
+            <ui:repeat value="#{productoController.busqueda}" var="producto" varStatus="loop">
+
+                <p:card style="width: 280px; margin: 0.5rem;">
+                    <f:facet name="header">
+                        <p:graphicImage name="images/1.jpg" alt="1.jpg" />
+                    </f:facet>
+                    <f:facet name="title">
+                        #{producto.nombre}
+                    </f:facet>
+                    <f:facet name="subtitle">
+                        #{producto.precio}
+                    </f:facet>
+
+                    <p>  #{producto.descripcion}</p>
+
+                    <f:facet name="footer">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <p:commandButton icon="pi pi-plus" value="Agregar al carrito" styleClass="ui-button-success" style="width: 100%; text-align: center;" 
+                                             actionListener="#{itemController.agregarItemCarrito(producto.id, producto.precio)}"/>
+
+                        </div>
+                    </f:facet>
+
+                </p:card>
+
+            </ui:repeat>
+        </div>
+            
+            
+            
+            
+        </h:form>    
+        
+        
+        
+            
+            
+       
+        
+        
+        
+        
+        
+    </ui:define>
+    
+    
+    
+    
+</ui:composition>
+
+
+
+
