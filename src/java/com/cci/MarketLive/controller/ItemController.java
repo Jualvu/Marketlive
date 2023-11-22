@@ -22,7 +22,10 @@ public class ItemController implements Serializable {
     private List<ItemTO> items;
     private ItemService servicioItem;
     private int totalItems;
+    private double subtotal;
+    private double iva;
     private double totalPrecio;
+
     private GeneralHelper generalHelper;
     UsuarioTO usuarioTO;
 
@@ -43,8 +46,8 @@ public class ItemController implements Serializable {
             servicioItem = new ItemService();
 
             if (usuarioTO != null) {
-                this.items = servicioItem.readAllByUsuario(usuarioTO.getId());
-                this.totalPrecio = servicioItem.calcularSumaPrecio(usuarioTO.getId());
+                setItems(servicioItem.readAllByUsuario(usuarioTO.getId()));
+                calcTotal();
             }
 
             countItems();
@@ -58,38 +61,90 @@ public class ItemController implements Serializable {
     public void agregarItemCarrito(int idProducto, double precioProducto) {
 
         itemTO = new ItemTO();
+        ItemTO itemObtenido = new ItemTO();
 
         try {
-
             if (usuarioTO != null) {
 
-                itemTO.setUsuarioId(usuarioTO.getId());
-                itemTO.setProductoId(idProducto);
-                itemTO.setCantidad(1);
-                itemTO.setPrecio(precioProducto);
+                itemObtenido = servicioItem.readd(idProducto, usuarioTO.getId());
 
-                servicioItem.create(itemTO);
-                this.items = servicioItem.readAllByUsuario(usuarioTO.getId());
-                countItems();
+                if (itemObtenido.getId() == 0) {
+                    itemTO.setUsuarioId(usuarioTO.getId());
+                    itemTO.setProductoId(idProducto);
+                    itemTO.setCantidad(1);
+                    itemTO.setPrecio(precioProducto);
 
-                generalHelper.redireccionar("/faces/index.xhtml");
+                    servicioItem.create(itemTO);
+                    setItems(servicioItem.readAllByUsuario(usuarioTO.getId()));
+                    countItems();
+                    calcTotal();
+
+                } else {
+                    itemTO.setId(itemObtenido.getId());
+                    itemTO.setCantidad(itemObtenido.getCantidad() + 1);
+
+                    servicioItem.update(itemTO);
+                    setItems(servicioItem.readAllByUsuario(usuarioTO.getId()));
+                    countItems();
+                    calcTotal();
+                }
 
             } else {
-
                 generalHelper.redireccionar("/faces/login.xhtml");
             }
+            generalHelper.redireccionar("/faces/index.xhtml");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            itemObtenido = null;
+        }
+    }
+
+    public void eliminarItem(int id) {
+        try {
+
+            servicioItem.delete(id);
+            setItems(servicioItem.readAllByUsuario(usuarioTO.getId()));
+            countItems();
+            calcTotal();
+            generalHelper.redireccionar("/faces/index.xhtml");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void limpiarCarrito() {
+        try {
+            servicioItem.limpiarCarrito(usuarioTO.getId());
+            setItems(servicioItem.readAllByUsuario(usuarioTO.getId()));
+            setTotalItems(0);
+            setTotalPrecio(0);
+            setSubtotal(0);
+            setIva(0);
+            generalHelper.redireccionar("/faces/index.xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void countItems() {
-        System.out.println("sasa");
         if (items != null) {
             setTotalItems(items.size());
         } else {
             setTotalItems(0);
+        }
+    }
+
+    private void calcTotal() {
+        try {
+            double total = servicioItem.calcularSumaPrecio(usuarioTO.getId());
+            setIva(total * 0.13);
+            setTotalPrecio(total);
+            setSubtotal(getTotalPrecio() - getIva());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -107,6 +162,22 @@ public class ItemController implements Serializable {
 
     public void setTotalItems(int totalItems) {
         this.totalItems = totalItems;
+    }
+
+    public double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public double getIva() {
+        return iva;
+    }
+
+    public void setIva(double iva) {
+        this.iva = iva;
     }
 
     public double getTotalPrecio() {

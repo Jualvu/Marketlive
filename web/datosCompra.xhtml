@@ -6,15 +6,39 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="main">
 
+        <p:growl id="messages" showDetail="true" />
+
         <div>
-            <h2>Listado de productos</h2>
+            <h2>Datos de compra</h2>
+            <p>*Rellene los datos para continuar con la compra.</p>
         </div>
 
         <hr/>    
 
-        <h:form>
+        <h:form class="form_datoscompra">
 
+            <div class="field">
+                <p:outputLabel for="nombre">Direccion de envío</p:outputLabel>
+                <br/>
+                <p:inputText id="nombre" value="#{datosCompraController.selectedDatoCompra.direccionEnvio}" required="true" />
+            </div>
+            <div class="field">
+                <p:outputLabel for="metodo_pago_id">Metodo de pago</p:outputLabel>
+                <br/>
+                <p:selectOneMenu id="metodo_pago_id" value="#{datosCompraController.selectedDatoCompra.metodoPago}" required="true" >
+                    <f:selectItem itemLabel="Selecciona un elemento"  itemValue=""/>
+                    <f:selectItems value="#{metodoPagoController.metodosPago}" var="metodoPago" itemLabel="[#{metodoPago.id}]-#{metodoPago.nombre}" itemValue="#{metodoPago.id}" />
+                </p:selectOneMenu>
+            </div>
+
+            <div class="content_btn">
+                <p:commandButton value="Guardar Datos" icon="pi pi-save" 
+                                 styleClass="ui-button-success" 
+                                 action="#{datosCompraController.createDatosCompra()}" />
+
+            </div>
         </h:form>
+
 
     </ui:define>
 </ui:composition>

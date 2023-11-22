@@ -100,3 +100,17 @@ main{
 .container_footer h2{
     margin-bottom: 3rem;
 }
+.table_carrito td{
+    border:1px solid #ccc;
+
+}
+.form_datoscompra{
+    display: flex;
+}
+.form_datoscompra .field{
+    margin: 0 1rem;
+}
+.content_btn{
+    display: flex;
+    align-items: flex-end;
+}

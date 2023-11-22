@@ -6,6 +6,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="main">
 
+        <p:growl id="messages" showDetail="true" />
+
         <div>
             <h2>Listado de productos</h2>
         </div>
@@ -15,28 +17,30 @@
         <div class="productos_container" style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
             <ui:repeat value="#{productoController.productos}" var="producto" varStatus="loop">
 
-                <p:card style="width: 280px; margin: 0.5rem;">
-                    <f:facet name="header">
-                        <p:graphicImage name="images/1.jpg" alt="1.jpg" />
-                    </f:facet>
-                    <f:facet name="title">
-                        #{producto.nombre}
-                    </f:facet>
-                    <f:facet name="subtitle">
-                        #{producto.precio}
-                    </f:facet>
+                <h:form id="form_index">
 
-                    <p>  #{producto.descripcion}</p>
+                    <p:card style="width: 280px; margin: 0.5rem;">
+                        <f:facet name="header">
+                            <p:graphicImage name="images/1.jpg" alt="1.jpg" />
+                        </f:facet>
+                        <f:facet name="title">
+                            #{producto.nombre}
+                        </f:facet>
+                        <f:facet name="subtitle">
+                            ₡ #{producto.precio}
+                        </f:facet>
 
-                    <f:facet name="footer">
-                        <div style="display: flex; align-items: center; justify-content: space-between;">
-                            <p:commandButton icon="pi pi-plus" value="Agregar al carrito" styleClass="ui-button-success" style="width: 100%; text-align: center;" 
-                                             actionListener="#{itemController.agregarItemCarrito(producto.id, producto.precio)}"/>
+                        <p>  #{producto.descripcion}</p>
 
-                        </div>
-                    </f:facet>
+                        <f:facet name="footer">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <p:commandButton icon="pi pi-plus" value="Agregar al carrito" styleClass="ui-button-success" style="width: 100%; text-align: center;" 
+                                                 actionListener="#{itemController.agregarItemCarrito(producto.id, producto.precio)}"/>
+                            </div>
+                        </f:facet>
 
-                </p:card>
+                    </p:card>
+                </h:form>
 
             </ui:repeat>
 

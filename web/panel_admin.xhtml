@@ -7,7 +7,7 @@
     <ui:define name="main">
 
         <div class="card crud-demo">
-            <h:form id="form">
+            <h:form id="form" >
                 <p:growl id="messages" showDetail="true" />
 
                 <p:toolbar>
@@ -47,9 +47,11 @@
                         </h:outputText>
                     </p:column>
                     <p:column headerText="Stock" sortBy="#{producto.stock}">
-                        <h:outputText value="#{producto.stock}" style="font-weight: 700">
-                            <f:convertNumber currencySymbol="$" type="currency" />
-                        </h:outputText>
+                        <h:outputText value="#{producto.stock}" style="font-weight: 700"/>
+                    </p:column>
+
+                    <p:column headerText="Categoria" sortBy="#{producto.categoriaNombre}">
+                        <h:outputText value="#{producto.categoriaNombre}" style="font-weight: 700"/>
                     </p:column>
 
                     <p:column exportable="false">
@@ -58,6 +60,11 @@
                                          styleClass="edit-button rounded-button ui-button-success" process="@this">
                             <f:setPropertyActionListener value="#{producto}" target="#{productoController.selectedProducto}" />
                             <p:resetInput target=":dialogs:manage-product-content" />
+                        </p:commandButton>
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                         process="@this"
+                                         oncomplete="PF('deleteProductDialog').show()">
+                            <f:setPropertyActionListener value="#{producto}" target="#{productoController.selectedProducto}" />
                         </p:commandButton>
                     </p:column>
 
@@ -102,6 +109,14 @@
                                                symbolPosition="s" decimalSeparator="." thousandSeparator="," />
                             </div>
 
+                            <div class="field">
+                                <p:outputLabel for="categorias">Categorias</p:outputLabel>
+                                <p:selectOneMenu id="categorias" value="#{productoController.selectedProducto.categoriaId}" required="true" >
+                                    <f:selectItem itemLabel="Selecciona un elemento"  itemValue=""/>
+                                    <f:selectItems value="#{categoriaController.categorias}" var="categoria" itemLabel="[#{categoria.id}]-#{categoria.nombre}" itemValue="#{categoria.id}" />
+                                </p:selectOneMenu>
+                            </div>
+
                         </p:outputPanel>
                     </p:outputPanel>
 
@@ -114,7 +129,10 @@
                 </p:dialog>
 
                 <p:confirmDialog widgetVar="deleteProductDialog" showEffect="fade" width="300"
-                                 message="Delete the product?" header="Confirm" severity="warn">
+                                 message="Eliminar el producto?" header="Confirmar" severity="warn">
+                    <p:commandButton value="Si" icon="pi pi-check" actionListener="#{productoController.deleteProducto}"
+                                     process="@this"
+                                     oncomplete="PF('deleteProductDialog').hide()" />
                     <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
                                      onclick="PF('deleteProductDialog').hide()" />
                 </p:confirmDialog>

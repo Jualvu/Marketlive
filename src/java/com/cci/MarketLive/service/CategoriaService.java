@@ -2,10 +2,17 @@ package com.cci.MarketLive.service;
 
 import com.cci.MarketLive.contracts.ICrud;
 import com.cci.MarketLive.to.CategoriaTO;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriaService implements ICrud<CategoriaTO> {
+public class CategoriaService extends Conexion implements ICrud<CategoriaTO> {
+
+    PreparedStatement stmt;
+    ResultSet rs;
+    List<CategoriaTO> categoria;
 
     @Override
     public boolean create(CategoriaTO objeto) throws SQLException {
@@ -29,7 +36,23 @@ public class CategoriaService implements ICrud<CategoriaTO> {
 
     @Override
     public List<CategoriaTO> readAll() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<CategoriaTO> categorias = new ArrayList<CategoriaTO>();
+        try {
+            stmt = super.getConexion().prepareStatement("SELECT * FROM categorias");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                CategoriaTO categoria = new CategoriaTO();
+                categoria.setId(rs.getInt("id"));
+                categoria.setNombre(rs.getString("nombre"));
+                categoria.setDescripcion(rs.getString("descripcion"));
+                categorias.add(categoria);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return categorias;
     }
 
     @Override

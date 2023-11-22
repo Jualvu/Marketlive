@@ -9,18 +9,18 @@ public class DatoCompraTO {
     private double total;
     private Timestamp fechaCreacion;
     private int metodoPago;
-    private int usuario_id;
+    private int usuarioId;
 
     public DatoCompraTO() {
     }
 
-    public DatoCompraTO(int id, String direccionEnvio, double total, Timestamp fechaCreacion, int metodoPago, int usuario_id) {
+    public DatoCompraTO(int id, String direccionEnvio, double total, Timestamp fechaCreacion, int metodoPago, int usuarioId) {
         this.id = id;
         this.direccionEnvio = direccionEnvio;
         this.total = total;
         this.fechaCreacion = fechaCreacion;
         this.metodoPago = metodoPago;
-        this.usuario_id = usuario_id;
+        this.usuarioId = usuarioId;
     }
 
     public int getId() {
@@ -63,12 +63,12 @@ public class DatoCompraTO {
         this.metodoPago = metodoPago;
     }
 
-    public int getUsuario_id() {
-        return usuario_id;
+    public int getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuario_id(int usuario_id) {
-        this.usuario_id = usuario_id;
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
 }
