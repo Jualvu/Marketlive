@@ -2,6 +2,7 @@ package com.cci.MarketLive.controller;
 
 import com.cci.MarketLive.to.ProductoTO;
 import com.cci.MarketLive.service.ProductoService;
+import com.cci.MarketLive.to.CategoriaTO;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,33 +21,32 @@ public class ProductoController implements Serializable {
     private ProductoTO selectedProducto;
     private List<ProductoTO> selectedProductos;
     private List<ProductoTO> busqueda;
-    
+
     private ProductoService servicioProducto;
 
     String producto;
-    
+
     public ProductoController() {
 
         productos = new ArrayList<>();
         selectedProductos = new ArrayList<>();
         busqueda = new ArrayList<>();
-        
+
         try {
             servicioProducto = new ProductoService();
             this.productos = servicioProducto.readAll();
             this.busqueda = servicioProducto.listarBusqueda(producto);
-           
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void buscar(String producto) throws SQLException{
-        
+    public void buscar(String producto) throws SQLException {
+
         this.busqueda = servicioProducto.listarBusqueda(producto);
     }
-    
-    
+
     public List<ProductoTO> getProductos() {
         return productos;
     }
@@ -95,8 +95,6 @@ public class ProductoController implements Serializable {
         this.producto = producto;
     }
 
-    
-    
     public void openNew() {
         this.selectedProducto = new ProductoTO();
     }
@@ -112,11 +110,12 @@ public class ProductoController implements Serializable {
                 productoTO.setDescripcion(this.selectedProducto.getDescripcion());
                 productoTO.setPrecio(this.selectedProducto.getPrecio());
                 productoTO.setStock(this.selectedProducto.getStock());
+                productoTO.setCategoriaId(this.selectedProducto.getCategoriaId());
                 productoTO.setUsuarioId(this.selectedProducto.getUsuarioId());
 
                 servicioProducto.create(productoTO);
 
-                this.productos.add(this.selectedProducto);
+                setProductos(servicioProducto.readAll());
 
                 selectedProducto.setId(0);
 
@@ -124,27 +123,27 @@ public class ProductoController implements Serializable {
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Producto actualizado"));
                 /* ProyectoTO ProductoTO = new ProyectoTO();
-                proyectoTO.setCodigo(this.selectedProyecto.getCodigo());
-                proyectoTO.setNombre(this.selectedProyecto.getNombre());
-                proyectoTO.setDescripcion(this.selectedProyecto.getDescripcion());
+           proyectoTO.setCodigo(this.selectedProyecto.getCodigo());
+           proyectoTO.setNombre(this.selectedProyecto.getNombre());
+           proyectoTO.setDescripcion(this.selectedProyecto.getDescripcion());
 
-                Boolean update = servicioProyecto.update(proyectoTO);
+           Boolean update = servicioProyecto.update(proyectoTO);
 
-                if (update) {
-                    for (ProyectoTO producto : this.proyectos) {
-                        if (proyecto.getId() == this.selectedProyecto.getId()) {
-                            proyecto.setCodigo(this.selectedProyecto.getCodigo());
-                            proyecto.setNombre(this.selectedProyecto.getNombre());
-                            proyecto.setDescripcion(this.selectedProyecto.getDescripcion());
-                            break; // Terminamos el bucle una vez que se ha actualizado el proyecto
-                        }
-                    }
+           if (update) {
+               for (ProyectoTO producto : this.proyectos) {
+                  if (proyecto.getId() == this.selectedProyecto.getId()) {
+                      proyecto.setCodigo(this.selectedProyecto.getCodigo());
+                      proyecto.setNombre(this.selectedProyecto.getNombre());
+                      proyecto.setDescripcion(this.selectedProyecto.getDescripcion());
+                      break; // Terminamos el bucle una vez que se ha actualizado el proyecto
+                  }
+               }
 
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Proyecto actualizado"));
-                } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al actualizar el proyecto", null));
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Proyecto actualizado"));
+           } else {
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al actualizar el proyecto", null));
 
-                }*/
+           }*/
             }
 
             PrimeFaces.current().executeScript("PF('manageProductDialog').hide()");

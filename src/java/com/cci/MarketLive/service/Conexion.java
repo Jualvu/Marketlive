@@ -5,29 +5,33 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
  
 public abstract class Conexion {
- 
-    private Connection conectar = null;
-    private String url = "jdbc:mysql://localhost:3306/market_live?serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL";
-    private String usuario = "root";
-    private String password = "Root123!";
- 
-    public Conexion() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
- 
-    private Connection conectarBBDD() throws SQLException {
-        conectar = DriverManager.getConnection(url, usuario, password);
-        return conectar;
-    }
- 
-    public Connection getConexion() throws SQLException {
-        if (conectar == null) {
-            conectarBBDD();
-        }
-        return conectar;
-    }
+
+   private static Connection conectar = null;
+   private static String url = "jdbc:mysql://localhost:3306/marketlive?serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL";
+   private static String usuario = "root";
+   private static String password = "Unconditional<3";
+
+   static {
+       try {
+           Class.forName("com.mysql.cj.jdbc.Driver");
+       } catch (ClassNotFoundException e) {
+           e.printStackTrace();
+           throw new RuntimeException("No se pudo cargar el driver de la base de datos", e);
+       }
+   }
+
+   public Conexion() {
+       if (conectar == null) {
+           try {
+               conectar = DriverManager.getConnection(url, usuario, password);
+           } catch (SQLException e) {
+               e.printStackTrace();
+               throw new RuntimeException("No se pudo conectar a la base de datos", e);
+           }
+       }
+   }
+
+   public Connection getConexion() {
+       return conectar;
+   }
 }

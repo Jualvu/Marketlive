@@ -11,11 +11,13 @@ public class ProductoTO {
     private double stock;
     private String tipoCobro;
     private int usuarioId;
+    private int categoriaId;
+    private String categoriaNombre;
 
     public ProductoTO() {
     }
 
-    public ProductoTO(int id, String tipo, String codigo, String nombre, String descripcion, double precio, double stock, String tipoCobro, int usuarioId) {
+    public ProductoTO(int id, String tipo, String codigo, String nombre, String descripcion, double precio, double stock, String tipoCobro, int usuarioId, int categoriaId, String categoriaNombre) {
         this.id = id;
         this.tipo = tipo;
         this.codigo = codigo;
@@ -25,7 +27,11 @@ public class ProductoTO {
         this.stock = stock;
         this.tipoCobro = tipoCobro;
         this.usuarioId = usuarioId;
+        this.categoriaId = categoriaId;
+        this.categoriaNombre = categoriaNombre;
     }
+
+    
 
     public int getId() {
         return id;
@@ -99,4 +105,21 @@ public class ProductoTO {
         this.usuarioId = usuarioId;
     }
 
+    public int getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(int categoriaId) {
+        this.categoriaId = categoriaId;
+    }
+
+    public String getCategoriaNombre() {
+        return categoriaNombre;
+    }
+
+    public void setCategoriaNombre(String categoriaNombre) {
+        this.categoriaNombre = categoriaNombre;
+    }
+
+    
 }
