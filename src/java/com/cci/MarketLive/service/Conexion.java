@@ -7,9 +7,10 @@ import java.sql.SQLException;
 public abstract class Conexion {
 
    private static Connection conectar = null;
-   private static String url = "jdbc:mysql://localhost:3306/marketlive?serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL";
+   private static String url = "jdbc:mysql://localhost:3306/market_live?serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL";
    private static String usuario = "root";
-   private static String password = "Unconditional<3";
+   private static String password = "Root123!"
+           + "";
 
    static {
        try {
