@@ -56,8 +56,10 @@ public class ComprasController {
             DatoCompraTO datoCompra = datosCompraService.read(usuarioTO.getId());
 
             if (datoCompra.getId() != 0) {
+                generalHelper.redireccionar("/faces/factura.xhtml");
                 getItemController().limpiarCarrito();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Compra Realizada"));
+                
             } else {
                 generalHelper.redireccionar("/faces/datosCompra.xhtml");
             }
