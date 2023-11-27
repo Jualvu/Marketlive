@@ -4,23 +4,20 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
-    
+
     <ui:define name="main">
- 
+
         <div>
             <h2>Factura:</h2>
-            
- 
-            <p:commandButton value="Imprimir" type="button" icon="pi pi-print" styleClass="shadow-1 mb-3 mr-2;">
-            <p:printer target="image"/>
-            </p:commandButton>
- 
-    <p:outputPanel id="pnlPrint">
-            <p:graphicImage id="image" name="images/factura.png"/>
-    </p:outputPanel>
-        </div>
-  
 
- 
+
+            <p:commandButton value="Imprimir" type="button" icon="pi pi-print" styleClass="shadow-1 mb-3 mr-2;">
+                <p:printer target="image"/>
+            </p:commandButton>
+
+            <p:outputPanel id="pnlPrint">
+                <p:graphicImage id="image" name="images/factura.png"/>
+            </p:outputPanel>
+        </div>
     </ui:define>
 </ui:composition>

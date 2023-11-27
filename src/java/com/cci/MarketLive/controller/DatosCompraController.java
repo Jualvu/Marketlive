@@ -49,7 +49,7 @@ public class DatosCompraController {
 
                 if (create) {
                     System.out.println("sasa");
-                    generalHelper.redireccionar("/faces/index.xhtml");
+                    generalHelper.redireccionar("/faces/detalles_carrito.xhtml");
                 } else {
                     System.out.println("error");
                 }

@@ -1,0 +1,39 @@
+.crud-demo{
+    width: 68%;
+}
+.table_carrito{
+    text-align: center;
+}
+.table_carrito thead th{
+    border: 1px solid rgba(0,0,0,0.2);
+}
+.info_compra{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 30%;
+    padding: 1rem;
+    border: 1px solid;
+    border-radius: 5px;
+}
+.info_compra ul {
+    width: 100%;
+    padding: 0;
+}
+.info_compra ul li{
+    padding: 0.5rem;
+}
+.info_compra h2{
+    text-align: center;
+    font-size: 25px;
+    width: 100%;
+    border-bottom: 1px solid;
+    padding-bottom: 0.5rem;
+}
+.btn_container{
+    width: 100%;
+}
+.btn_detalles{
+    width: 100%;
+}

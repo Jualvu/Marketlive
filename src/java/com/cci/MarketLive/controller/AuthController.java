@@ -104,7 +104,7 @@ public class AuthController implements Serializable {
 
     private void redirigirSegunRol(UsuarioTO usuarioLogin) {
         if (usuarioLogin != null && usuarioLogin.getRoleNombre().equals("admin")) {
-            generalHelper.redireccionar("/faces/panel_admin.xhtml");
+            generalHelper.redireccionar("/faces/productos_admin.xhtml");
         } else {
             generalHelper.redireccionar("/faces/index.xhtml");
         }

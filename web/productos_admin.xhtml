@@ -4,6 +4,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
+
     <ui:define name="main">
 
         <div class="card crud-demo">
@@ -66,6 +67,7 @@
                                          oncomplete="PF('deleteProductDialog').show()">
                             <f:setPropertyActionListener value="#{producto}" target="#{productoController.selectedProducto}" />
                         </p:commandButton>
+
                        
                     </p:column>
                     
@@ -88,6 +90,9 @@
                             
                             
                         </p:column>
+
+                    </p:column>
+
 
                 </p:dataTable>
 
@@ -164,6 +169,7 @@
                                      icon="pi pi-times" />
                 </p:confirmDialog>
             </h:form>
+
             
             
             <h:form id="dialogsInventario">

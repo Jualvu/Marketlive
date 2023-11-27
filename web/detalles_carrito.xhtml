@@ -1,0 +1,114 @@
+<ui:composition template="/layouts/cliente_layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="style">
+        <h:outputStylesheet library="css" name="detalles_productos.css" />
+    </ui:define>
+
+    <ui:define name="main">
+
+        <p:growl id="messages" showDetail="true" />
+
+        <div>
+            <h2>Productos del carrito</h2>
+        </div>
+
+        <hr/>    
+
+        <h:form style="margin: 1rem;width: 250px;">
+            <p:commandButton value="Guardar estado del carrito" styleClass="btn_detalles ui-button-success" actionListener="#{comprasController.realizarCompra()}" style="font-size: smaller;" />
+        </h:form>
+
+        <div class="productos_carrito" style="display: flex;justify-content: space-between;">
+
+            <div class="card crud-demo" style="max-height: 400px; padding: 0.5rem;; overflow-y: auto;">
+                <h:form id="form" >
+                    <p:growl id="messages" showDetail="true" />
+
+                    <table class="table_carrito" style="width: 100%;">
+
+                        <thead>
+                            <th>#</th>
+                            <th>Imagen</th>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Borrar</th>
+                        </thead>
+                        <!-- Fila de items -->
+                        <tbody>
+                            <ui:repeat value="#{itemController.items}" var="item" varStatus="loop" rendered="#{not empty itemController.items}">
+                                <tr>
+                                    <!-- Índice -->
+                                    <td>[#{loop.index + 1}]</td>
+                                    <!-- Elemento 1: Imagen -->
+                                    <td><p:graphicImage name="images/1.jpg" alt="1.jpg" style="width: 70px; height: 70px;" /></td>
+
+                                    <!-- Elemento 2: Título -->
+                                    <td><p:outputLabel value="#{item.nombreProducto}" styleClass="cart-item-title" style="font-size: smaller;" /></td>
+
+                                    <!-- Elemento 3: Cantidad -->
+                                    <td>
+                                        <p:inputNumber value="#{item.cantidad}" styleClass="cart-item-title" style="font-size: smaller; text-align: center;" />
+                                    </td>
+
+                                    <!-- Elemento 4: Precio -->
+                                    <td><p:outputLabel value="₡ #{item.precio}" styleClass="cart-item-price" style="font-size: smaller;" /></td>
+
+                                    <!-- Elemento 5: Borrar -->
+                                    <td><p:commandButton icon="pi pi-times" actionListener="#{itemController.eliminarItem(item.id)}" styleClass="ui-button-danger" style="font-size: smaller;" /></td>
+
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+
+                </h:form>
+            </div>
+
+            <h:form class="info_compra">
+
+                <h2>Detalles de compra</h2>
+
+                <ul>
+                    <p:separator style="margin: 10px 0;" />
+                    <li style="display: flex; justify-content: space-between;">
+                        <p:outputLabel value="SubTotal" styleClass="cart-total" style="font-size: 16px; text-align: left;" />
+                        <p:outputLabel value="#{itemController.subtotal}" styleClass="cart-total" style="font-size: 16px; text-align: right;">
+                            <f:convertNumber pattern="#,##0.00" />
+                        </p:outputLabel>
+                    </li>
+                    <p:separator style="margin: 10px 0;" />
+                    <li style="display: flex; justify-content: space-between;">
+                        <p:outputLabel value="IVA:" styleClass="cart-total" style="font-size: 16px; text-align: left;" />
+                        <p:outputLabel value="#{itemController.iva}" styleClass="cart-total" style="font-size: 16px; text-align: right;">
+                            <f:convertNumber pattern="#,##0.00" />
+                        </p:outputLabel>
+                    </li>
+                    <p:separator style="margin: 10px 0;" />
+                    <li style="display: flex; justify-content: space-between;">
+                        <p:outputLabel value="Total:" styleClass="cart-total" style="font-size: 18px; font-weight: bold; text-align: left;" />
+                        <p:outputLabel value="#{itemController.totalPrecio}" styleClass="cart-total" style="font-size: 18px; font-weight: bold; text-align: right;">
+                            <f:convertNumber pattern="#,##0.00" />
+                        </p:outputLabel>
+                    </li>
+                    <p:separator style="margin: 10px 0;" />
+                </ul>
+
+
+                <div class="btn_container">              
+                    <p:commandButton value="Confirmar Compra" styleClass="btn_detalles" actionListener="#{comprasController.realizarCompra()}" style="font-size: smaller;" />
+                </div>
+
+
+            </h:form>
+
+        </div>
+    </ui:define>
+</ui:composition>
+
+

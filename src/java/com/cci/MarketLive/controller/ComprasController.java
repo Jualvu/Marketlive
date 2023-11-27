@@ -59,7 +59,7 @@ public class ComprasController {
                 generalHelper.redireccionar("/faces/factura.xhtml");
                 getItemController().limpiarCarrito();
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Compra Realizada"));
-                
+
             } else {
                 generalHelper.redireccionar("/faces/datosCompra.xhtml");
             }
