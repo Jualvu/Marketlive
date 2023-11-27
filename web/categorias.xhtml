@@ -8,39 +8,26 @@
     <ui:define name="main">
        
 <div class="card">
-    
-    <p:splitter style="height: 100%; width: 100px" styleClass="mb-5">
-        <p:splitterPanel styleClass="flex align-items-center justify-content-center">
-            
-            <p:megaMenu orientation="vertical" autoDisplay="false">
-                
-                <p:submenu label="Videos" icon="pi pi-fw pi-video"></p:submenu>
-                
-                <p:submenu label="Videos" icon="pi pi-fw pi-video"></p:submenu>
-                
-                <p:submenu label="Videos" icon="pi pi-fw pi-video"></p:submenu>
-                
-                <p:submenu label="Videos" icon="pi pi-fw pi-video"></p:submenu>
-                
-                <p:submenu label="Videos" icon="pi pi-fw pi-video"></p:submenu>
-                
-                <p:submenu label="Videos" icon="pi pi-fw pi-video"></p:submenu>
-                
-                <p:submenu label="Videos" icon="pi pi-fw pi-video"></p:submenu>
-                
-                <p:submenu label="Videos" icon="pi pi-fw pi-video"></p:submenu>
-                
-            </p:megaMenu>
 
+            <div class="card">
+                <h:form>
+                    <p:breadCrumb>
+                        <p:menuitem value="Tecnologia"/>
+                        <p:menuitem value="Tecnologia" action="#{productoController.readProductoByCategoria(1)}" update="productos"/>
+                        <p:menuitem value="Ropa" action="#{productoController.readProductoByCategoria(2)}" update="productos"/>
+                        <p:menuitem value="Juguetes" action="#{productoController.readProductoByCategoria(3)}" update="productos"/>
+                        <p:menuitem value="Hogar" action="#{productoController.readProductoByCategoria(4)}" update="productos"/>
+                        <p:menuitem value="Higiene" action="#{productoController.readProductoByCategoria(5)}" update="productos"/>
+                        <p:menuitem value="Comida" action="#{productoController.readProductoByCategoria(6)}" update="productos"/>
+                    </p:breadCrumb>
+                </h:form>
+            </div>
             
+        
             
-        </p:splitterPanel>
-        <p:splitterPanel styleClass="flex align-items-center justify-content-center">
-            
-            
-            
+    <h:form id="productos">
         <div class="productos_container" style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
-            <ui:repeat value="#{productoController.productos}" var="producto" varStatus="loop">
+            <ui:repeat value="#{productoController.listaProductoCategoria}" var="producto" varStatus="loop">
 
                 <p:card style="width: 280px; margin: 0.5rem;">
                     <f:facet name="header">
@@ -67,14 +54,9 @@
 
             </ui:repeat>
 
-            </div>
-            
-            
-            
-            
-            
-        </p:splitterPanel>
-    </p:splitter>
+        </div>
+    </h:form>      
+
 </div>
         
 

@@ -86,6 +86,34 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
         }
     }
 
+    public boolean updateCantidad(ProductoTO objeto, double cantidad) throws SQLException {
+        try {
+            System.out.println("sa" + objeto.getId());
+            String query = "UPDATE productos SET tipo = ?, codigo = ?, nombre = ?, descripcion = ?, precio = ?, stock = ? WHERE id = ?";
+            stmt = super.getConexion().prepareStatement(query);
+            stmt.setString(1, objeto.getTipo());
+            stmt.setString(2, objeto.getCodigo());
+            stmt.setString(3, objeto.getNombre());
+            stmt.setString(4, objeto.getDescripcion());
+            stmt.setDouble(5, objeto.getPrecio());
+            stmt.setDouble(6, objeto.getStock()+cantidad);
+            stmt.setInt(7, objeto.getId());
+
+            stmt.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+    
     @Override
     public boolean delete(int id) throws SQLException {
         PreparedStatement stmt1 = null;
@@ -174,6 +202,53 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public List<ProductoTO> readAllByCategoria(int idCategoria) throws SQLException {
+        productos = new ArrayList<ProductoTO>();
+
+        try {
+            stmt = super.getConexion().prepareStatement("SELECT * FROM productos where categoria_id = ?");
+            stmt.setInt(1, idCategoria);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ProductoTO productoTO = new ProductoTO();
+
+                int id = rs.getInt("id");
+                String tipo = rs.getString("tipo");
+                String codigo = rs.getString("codigo");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                double precio = rs.getDouble("precio");
+                double stock = rs.getDouble("stock");
+                int usuarioId = rs.getInt("usuario_id");
+                int categoriaId = rs.getInt("categoria_id");
+
+                productoTO.setId(id);
+                productoTO.setTipo(tipo);
+                productoTO.setCodigo(codigo);
+                productoTO.setNombre(nombre);
+                productoTO.setDescripcion(descripcion);
+                productoTO.setPrecio(precio);
+                productoTO.setStock(stock);
+                productoTO.setUsuarioId(usuarioId);
+                productoTO.setCategoriaId(categoriaId);
+
+                productos.add(productoTO);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null && rs != null) {
+                rs.close();
+                stmt.close();
+            }
+        }
+
+        return productos;
+    }
+    
+    
     public List<ProductoTO> listarBusqueda(String producto) throws SQLException {
         productos = new ArrayList<ProductoTO>();
 
