@@ -1,7 +1,9 @@
 package com.cci.MarketLive.controller;
 
+import com.cci.MarketLive.service.CategoriaService;
 import com.cci.MarketLive.to.ProductoTO;
 import com.cci.MarketLive.service.ProductoService;
+import com.cci.MarketLive.to.CategoriaTO;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,22 +23,37 @@ public class ProductoController implements Serializable {
     private List<ProductoTO> selectedProductos;
     private GeneralHelper generalHelper;
     private List<ProductoTO> busqueda;
-
+    private List<ProductoTO> listaProductoCategoria;
+    
+    
     private ProductoService servicioProducto;
-
+    private CategoriaService servicioCategoria;
+    
     private String producto;
+    private String categoria;
+    
+    private CategoriaTO categoriaTO;
 
+    int idCategoria;
+    
     public ProductoController() {
 
         productos = new ArrayList<>();
         selectedProductos = new ArrayList<>();
         generalHelper = new GeneralHelper();
         busqueda = new ArrayList<ProductoTO>();
+        listaProductoCategoria = new ArrayList<ProductoTO>();
+        
+        
 
         try {
             servicioProducto = new ProductoService();
             setProductos(servicioProducto.readAll());
             setBusqueda(servicioProducto.listarBusqueda(producto));
+            
+            
+            setListaProductoCategoria(servicioProducto.readAllByCategoria(idCategoria));
+            
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,6 +70,23 @@ public class ProductoController implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void readProductoByCategoria(int idCategoria2){
+        
+        try {
+            
+            idCategoria= idCategoria2;
+            setListaProductoCategoria(servicioProducto.readAllByCategoria(idCategoria2));
+
+            for (ProductoTO pro : getListaProductoCategoria()) {
+                System.out.println("sa" + pro.getNombre());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
     }
 
     public List<ProductoTO> getProductos() {
@@ -99,6 +133,13 @@ public class ProductoController implements Serializable {
         this.selectedProducto = new ProductoTO();
     }
 
+    public void updateProductoCantidad(ProductoTO producto, double cantidad) throws SQLException{
+        
+        servicioProducto.updateCantidad(producto, cantidad);
+        setProductos(servicioProducto.readAll());
+        generalHelper.redireccionar("/faces/panel_admin.xhtml");
+    }
+    
     public void saveProducto() {
         try {
             if (this.selectedProducto.getId() == 0) {
@@ -171,4 +212,57 @@ public class ProductoController implements Serializable {
     public boolean hasSelectedProductos() {
         return this.selectedProductos != null && !this.selectedProductos.isEmpty();
     }
+
+    public GeneralHelper getGeneralHelper() {
+        return generalHelper;
+    }
+
+    public void setGeneralHelper(GeneralHelper generalHelper) {
+        this.generalHelper = generalHelper;
+    }
+
+    public List<ProductoTO> getListaProductoCategoria() {
+        return listaProductoCategoria;
+    }
+
+    public void setListaProductoCategoria(List<ProductoTO> listaProductoCategoria) {
+        this.listaProductoCategoria = listaProductoCategoria;
+    }
+
+    public CategoriaTO getCategoriaTO() {
+        return categoriaTO;
+    }
+
+    public void setCategoriaTO(CategoriaTO categoriaTO) {
+        this.categoriaTO = categoriaTO;
+    }
+
+
+
+    public ProductoService getServicioProducto() {
+        return servicioProducto;
+    }
+
+    public void setServicioProducto(ProductoService servicioProducto) {
+        this.servicioProducto = servicioProducto;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public CategoriaService getServicioCategoria() {
+        return servicioCategoria;
+    }
+
+    public void setServicioCategoria(CategoriaService servicioCategoria) {
+        this.servicioCategoria = servicioCategoria;
+    }
+    
+    
+
 }

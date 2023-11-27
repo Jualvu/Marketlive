@@ -67,7 +67,32 @@
                                          oncomplete="PF('deleteProductDialog').show()">
                             <f:setPropertyActionListener value="#{producto}" target="#{productoController.selectedProducto}" />
                         </p:commandButton>
+
+                       
                     </p:column>
+                    
+                    <p:column headerText="Inventario">
+                            
+                        <p:commandButton icon="pi pi-plus-circle" update=":dialogsInventario:manage-product-content-inventario"
+                                         oncomplete="PF('manageProductDialogInventario').show()"
+                                         styleClass="rounded-button ui-button-secondary" process="@this">
+                            <f:setPropertyActionListener value="#{producto}" target="#{productoController.selectedProducto}" />
+                            <p:resetInput target=":dialogsInventario:manage-product-content-inventario" />
+                        </p:commandButton>
+                        
+                        
+                        <p:commandButton icon="pi pi-eye" update=":dialogsInventarioLista:manage-product-content-inventario-lista"
+                                         oncomplete="PF('manageProductDialogInventarioLista').show()"
+                                         styleClass="rounded-button ui-button-secondary" process="@this">
+                            <f:setPropertyActionListener value="#{producto}" target="#{productoController.selectedProducto}" />
+                            <p:resetInput target=":dialogsInventarioLista:manage-product-content-inventario-lista" />
+                        </p:commandButton>
+                            
+                            
+                        </p:column>
+
+                    </p:column>
+
 
                 </p:dataTable>
 
@@ -144,6 +169,118 @@
                                      icon="pi pi-times" />
                 </p:confirmDialog>
             </h:form>
+
+            
+            
+            <h:form id="dialogsInventario">
+                <p:dialog header="Agregar Inventario" showEffect="fade" modal="true" widgetVar="manageProductDialogInventario"
+                    responsive="true">
+                              
+                    <p:outputPanel id="manage-product-content-inventario" class="ui-fluid">
+                        
+
+                            <div class="field">
+                                <p:outputLabel for="codigo">Codigo</p:outputLabel>
+                                <br />
+                                <p:outputLabel id="codigo" value="#{productoController.selectedProducto.codigo}"></p:outputLabel>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="nombre">Nombre</p:outputLabel>
+                                <br />
+                                <p:outputLabel id="nombre" value="#{productoController.selectedProducto.nombre}"></p:outputLabel>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="descripcion">Descripcion</p:outputLabel>
+                                <br />
+                                <p:outputLabel id="descripcion" value="#{productoController.selectedProducto.descripcion}"></p:outputLabel>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="precio">Precio</p:outputLabel>
+                                <br />
+                                <p:outputLabel id="precio" value="#{productoController.selectedProducto.precio}"></p:outputLabel>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="stock">Stock</p:outputLabel>
+                                <br />
+                                <p:outputLabel id="stock" value="#{productoController.selectedProducto.stock}"></p:outputLabel>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="cantidad">Cantidad para agregar</p:outputLabel>
+                                <br />
+                                <p:inputNumber id="cantidad" value="#{inventarioController.cantidad}" 
+                                               symbolPosition="s" decimalSeparator="." thousandSeparator="," required="true"/>                             
+                            </div>
+
+                        </p:outputPanel>
+                  
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" icon="pi pi-check" actionListener="#{inventarioController.saveInventario(productoController.selectedProducto, inventarioController.cantidad)}"
+                                         update="manage-product-content-inventario" process="manage-product-content-inventario @this" />
+
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageProductDialogInventario').hide()"
+                                         class="ui-button-secondary" type="button" />
+                    </f:facet>
+                    
+                    
+                    
+                </p:dialog>
+
+
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                     icon="pi pi-times" />
+                </p:confirmDialog>
+            </h:form>
+            
+            
+            
+            
+            <h:form id="dialogsInventarioLista">
+                <p:dialog header="Lista Inventario" showEffect="fade" modal="true" widgetVar="manageProductDialogInventarioLista"
+                    responsive="true">
+                              
+                    <p:outputPanel id="manage-product-content-inventario-lista" class="ui-fluid">
+                        
+                        <div class="field">
+                                
+                                <p:outputLabel  value="#{productoController.selectedProducto.nombre}"></p:outputLabel>
+                        </div>
+                        
+                        
+                        <p:dataTable var="inventario"  value="#{inventarioController.read(productoController.selectedProducto.id)}" rows="10"
+                                     paginator="true" paginatorPosition="both"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+
+                            <p:column headerText="Fecha">
+                                <h:outputText value="#{inventario.fecha}"/>
+                            </p:column>
+
+                            <p:column headerText="Cantidad">
+                                <h:outputText value="#{inventario.cantidad}"/>
+                            </p:column>
+
+
+                        </p:dataTable>
+
+                            
+
+
+                        </p:outputPanel>
+
+                    
+                    
+                    
+                </p:dialog>
+
+
+               
+            </h:form>
+            
+            
         </div>
 
     </ui:define>

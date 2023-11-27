@@ -162,4 +162,28 @@ public class AuthController implements Serializable {
         this.roleId = roleId;
     }
 
+    public UsuarioTO getUsuarioTO() {
+        return usuarioTO;
+    }
+
+    public void setUsuarioTO(UsuarioTO usuarioTO) {
+        this.usuarioTO = usuarioTO;
+    }
+
+    public GeneralHelper getGeneralHelper() {
+        return generalHelper;
+    }
+
+    public void setGeneralHelper(GeneralHelper generalHelper) {
+        this.generalHelper = generalHelper;
+    }
+
+    public AuthService getAuthService() {
+        return authService;
+    }
+
+    public void setAuthService(AuthService authService) {
+        this.authService = authService;
+    }
+
 }

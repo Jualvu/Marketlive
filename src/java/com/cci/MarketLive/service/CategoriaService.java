@@ -59,5 +59,28 @@ public class CategoriaService extends Conexion implements ICrud<CategoriaTO> {
     public List<CategoriaTO> readAllByUsuario(int usuarioId) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    public CategoriaTO readAllByCategoria(String categoriaNombre) throws SQLException {
+        
+        CategoriaTO categoria = new CategoriaTO();
+        try {
+            stmt = super.getConexion().prepareStatement("SELECT * FROM categorias WHERE nombre = ?");
+            stmt.setString(1, categoriaNombre);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                categoria.setId(rs.getInt("id"));
+                categoria.setNombre(rs.getString("nombre"));
+                categoria.setDescripcion(rs.getString("descripcion"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return categoria;
+        
+        
+        
+    }
 
 }
