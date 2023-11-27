@@ -133,7 +133,7 @@ public class ProductoController implements Serializable {
 
                 servicioProducto.update(productoTO);
 
-                generalHelper.redireccionar("/faces/panel_admin.xhtml");
+                generalHelper.redireccionar("/faces/productos_admin.xhtml");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Producto actualizado"));
             }
 

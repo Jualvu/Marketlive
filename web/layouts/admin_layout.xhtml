@@ -24,8 +24,21 @@
                 <div class="sidebar_content">
 
                     <p:sidebar widgetVar="sidebar1">
-                        <h3>Left Sidebar</h3>
+                        <h3>Marker Live</h3>
+                        <ul class="ul_nav">
+                            <li class="li_nav">
+                                <h:commandLink action="#{rutasController.redireccionar('index.xhtml')}" value="Inicio" class="link_nav"/>
+                            </li>
+                            <li class="li_nav">
+                                <h:commandLink action="#{rutasController.redireccionar('productos_admin.xhtml')}" value="Productos" class="link_nav"/>
+                            </li>
+                            <li class="li_nav">
+                                <h:commandLink action="#{rutasController.redireccionar('categorias_admin.xhtml')}" value="Categorias" class="link_nav"/>
+                            </li>
+                        </ul>
                     </p:sidebar>
+
+
 
                     <p:commandButton icon="pi pi-align-justify" type="button" onclick="PF('sidebar1').show()"/>
 
