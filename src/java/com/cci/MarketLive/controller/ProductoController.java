@@ -103,17 +103,7 @@ public class ProductoController implements Serializable {
         try {
             if (this.selectedProducto.getId() == 0) {
 
-                ProductoTO productoTO = new ProductoTO();
-                productoTO.setTipo(this.selectedProducto.getTipo());
-                productoTO.setCodigo(this.selectedProducto.getCodigo());
-                productoTO.setNombre(this.selectedProducto.getNombre());
-                productoTO.setDescripcion(this.selectedProducto.getDescripcion());
-                productoTO.setPrecio(this.selectedProducto.getPrecio());
-                productoTO.setStock(this.selectedProducto.getStock());
-                productoTO.setCategoriaId(this.selectedProducto.getCategoriaId());
-                productoTO.setUsuarioId(this.selectedProducto.getUsuarioId());
-
-                servicioProducto.create(productoTO);
+                servicioProducto.create(getSelectedProducto());
 
                 setProductos(servicioProducto.readAll());
 
@@ -122,16 +112,7 @@ public class ProductoController implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Producto agregado"));
             } else {
 
-                ProductoTO productoTO = new ProductoTO();
-                productoTO.setId(this.selectedProducto.getId());
-                productoTO.setTipo(this.selectedProducto.getTipo());
-                productoTO.setCodigo(this.selectedProducto.getCodigo());
-                productoTO.setNombre(this.selectedProducto.getNombre());
-                productoTO.setDescripcion(this.selectedProducto.getDescripcion());
-                productoTO.setPrecio(this.selectedProducto.getPrecio());
-                productoTO.setStock(this.selectedProducto.getStock());
-
-                servicioProducto.update(productoTO);
+                servicioProducto.update(getSelectedProducto());
 
                 generalHelper.redireccionar("/faces/panel_admin.xhtml");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Producto actualizado"));

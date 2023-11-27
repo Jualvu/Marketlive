@@ -17,6 +17,12 @@
                                          styleClass="ui-button-success" style="margin-right: .5rem">
                             <p:resetInput target=":dialogs:manage-product-content" />
                         </p:commandButton>
+
+                        <p:commandButton value="Agregar Categoría" icon="pi pi-plus" actionListener="#{categoriaController.openNew}"
+                                         update=":dialogs:manage-categoria-content" oncomplete="PF('manageCategoriaDialog').show()"
+                                         styleClass="ui-button-success" style="margin-right: .5rem">
+                            <p:resetInput target=":dialogs:manage-categoria-content" />
+                        </p:commandButton>
                     </p:toolbarGroup>
                 </p:toolbar>
 
@@ -142,6 +148,26 @@
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
                                      icon="pi pi-times" />
                 </p:confirmDialog>
+
+                <p:dialog header="Agregar Categoría" showEffect="fade" modal="true" widgetVar="manageCategoriaDialog"
+                          responsive="true">
+                    <p:outputPanel id="manage-categoria-content" class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="nombreCategoria">Nombre</p:outputLabel>
+                            <p:inputText id="nombreCategoria" value="#{categoriaController.selectedCategoria.nombre}" required="true" />
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="descripcionCategoria">Descripción</p:outputLabel>
+                            <p:inputText id="descripcionCategoria" value="#{categoriaController.selectedCategoria.descripcion}" required="true" />
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{categoriaController.saveCategoria}"
+                                         update="manage-categoria-content" process="manage-categoria-content @this" />
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageCategoriaDialog').hide()"
+                                         class="ui-button-secondary" type="button" />
+                    </f:facet>
+                </p:dialog>
             </h:form>
         </div>
 
