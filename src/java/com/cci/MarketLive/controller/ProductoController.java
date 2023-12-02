@@ -137,7 +137,7 @@ public class ProductoController implements Serializable {
         
         servicioProducto.updateCantidad(producto, cantidad);
         setProductos(servicioProducto.readAll());
-        generalHelper.redireccionar("/faces/panel_admin.xhtml");
+        generalHelper.redireccionar("/faces/productos_admin.xhtml");
     }
     
     public void saveProducto() {

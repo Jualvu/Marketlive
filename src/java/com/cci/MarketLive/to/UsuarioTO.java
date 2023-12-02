@@ -1,27 +1,26 @@
 package com.cci.MarketLive.to;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class UsuarioTO implements Serializable {
+public class UsuarioTO {
 
     private int id;
     private String nombre;
     private String correo;
     private String password;
-    private Timestamp fechaCreada;
     private int roleId;
+    private Timestamp fechaCreada;
     private String roleNombre;
 
     public UsuarioTO() {
     }
 
-    public UsuarioTO(int id, String nombre, String correo, String password, Timestamp fechaCreada, int roleId, String roleNombre) {
+    public UsuarioTO(int id, String nombre, String correo, String password, int roleId) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
-        this.password = password;
         this.fechaCreada = fechaCreada;
+        this.password = password;
         this.roleId = roleId;
         this.roleNombre = roleNombre;
     }
@@ -58,14 +57,6 @@ public class UsuarioTO implements Serializable {
         this.password = password;
     }
 
-    public Timestamp getFechaCreada() {
-        return fechaCreada;
-    }
-
-    public void setFechaCreada(Timestamp fechaCreada) {
-        this.fechaCreada = fechaCreada;
-    }
-
     public int getRoleId() {
         return roleId;
     }
@@ -74,17 +65,16 @@ public class UsuarioTO implements Serializable {
         this.roleId = roleId;
     }
 
+    public void setFechaCreada(Timestamp fechaCreada) {
+        this.fechaCreada = fechaCreada;
+    }
+
     public String getRoleNombre() {
         return roleNombre;
     }
 
     public void setRoleNombre(String roleNombre) {
         this.roleNombre = roleNombre;
-    }
-
-    @Override
-    public String toString() {
-        return "UsuarioTO{" + "id=" + id + ", nombre=" + nombre + ", correo=" + correo + ", password=" + password + ", fechaCreada=" + fechaCreada + ", roleId=" + roleId + ", roleNombre=" + roleNombre + '}';
     }
 
 }

@@ -97,7 +97,7 @@ public class InventarioController implements Serializable{
             inventarioService.createForProduct(productoController.getSelectedProducto().getId(), cantidad2);
             productoController.updateProductoCantidad(producto, cantidad);
             
-            generalHelper.redireccionar("/faces/panel_admin.xhtml");
+            generalHelper.redireccionar("/faces/productos_admin.xhtml");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Producto actualizado"));
             
             
