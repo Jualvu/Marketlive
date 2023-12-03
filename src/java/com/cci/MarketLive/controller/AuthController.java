@@ -22,6 +22,7 @@ public class AuthController implements Serializable {
     private UsuarioTO usuarioTO;
     private GeneralHelper generalHelper;
     private AuthService authService;
+    private String message;
 
     public AuthController() {
         authService = new AuthService();
@@ -186,4 +187,11 @@ public class AuthController implements Serializable {
         this.authService = authService;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

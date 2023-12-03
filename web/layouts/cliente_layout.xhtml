@@ -49,7 +49,7 @@
 
                 <h:form>
 
-                    <p:growl id="messages" showDetail="true" />
+                    <p:growl id="messages_carrito" showDetail="true" />
 
 
                     <div class="auth_container">
@@ -79,30 +79,40 @@
 
                                 <!-- Fila de items -->
                                 <div style="max-height: 200px; padding-right: 10px; overflow-y: auto;">
-                                    <table class="table_carrito" style="width: 100%;">
-                                        <!-- Fila de items -->
-                                        <ui:repeat value="#{itemController.items}" var="item" varStatus="loop" rendered="#{not empty itemController.items}">
-                                            <tr>
-                                                <!-- Índice -->
-                                                <td>[#{loop.index + 1}]</td>
-                                                <!-- Elemento 1: Imagen -->
-                                                <td><p:graphicImage name="images/1.jpg" alt="1.jpg" style="width: 70px; height: 70px;" /></td>
+                                    <h:dataTable id="table_carrito_id" value="#{itemController.items}" var="item" rendered="#{not empty itemController.items}"
+                                                 styleClass="table_carrito" style="width: 100%">
 
-                                                <!-- Elemento 2: Título -->
-                                                <td><p:outputLabel value="#{item.nombreProducto}" styleClass="cart-item-title" style="font-size: smaller;" /></td>
+                                        <h:column>
+                                            <f:facet name="header">#</f:facet>
+                                            <h:outputText value="[#{itemController.items.indexOf(item) + 1}]" />
+                                        </h:column>
 
-                                                <!-- Elemento 3: Cantidad -->
-                                                <td><p:outputLabel value="#{item.cantidad}" styleClass="cart-item-title" style="font-size: smaller;" /></td>
+                                        <h:column>
+                                            <f:facet name="header">Imagen</f:facet>
+                                            <p:graphicImage name="images/1.jpg" alt="1.jpg" style="width: 70px; height: 70px;" />
+                                        </h:column>
 
-                                                <!-- Elemento 4: Precio -->
-                                                <td><p:outputLabel value="₡ #{item.precio}" styleClass="cart-item-price" style="font-size: smaller;" /></td>
+                                        <h:column>
+                                            <f:facet name="header">Nombre</f:facet>
+                                            <h:outputLabel value="#{item.nombreProducto}" styleClass="cart-item-title" style="font-size: smaller;" />
+                                        </h:column>
 
-                                                <!-- Elemento 5: Borrar -->
-                                                <td><p:commandButton icon="pi pi-times" actionListener="#{itemController.eliminarItem(item.id)}" styleClass="ui-button-danger" style="font-size: smaller;" /></td>
-                                            </tr>
-                                        </ui:repeat>
+                                        <h:column>
+                                            <f:facet name="header">Cantidad</f:facet>
+                                            <h:outputLabel value="#{item.cantidad}" styleClass="cart-item-title" style="font-size: smaller;" />
+                                        </h:column>
 
-                                    </table>
+                                        <h:column>
+                                            <f:facet name="header">Precio</f:facet>
+                                            <h:outputLabel value="₡ #{item.precio}" styleClass="cart-item-price" style="font-size: smaller;" />
+                                        </h:column>
+
+                                        <h:column>
+                                            <f:facet name="header">Borrar</f:facet>
+                                            <p:commandButton icon="pi pi-times" actionListener="#{itemController.eliminarItem(item.id)}" styleClass="ui-button-danger" style="font-size: smaller;" />
+                                        </h:column>
+                                    </h:dataTable>
+
                                 </div>
 
                                 <!-- Mostrar mensaje si no hay productos -->
@@ -147,7 +157,7 @@
 
                         <div style="margin-left: 1rem;">
                             <p:menuButton value="#{sessionScope.usuarioTO.nombre}" rendered="#{not empty sessionScope.usuarioTO}">
-                                <p:menuitem value="Cuenta" action="#{rutasController.redireccionar('panel_admin.xhtml')}" icon="pi pi-user" />
+                                <p:menuitem value="Cuenta" action="#{rutasController.redireccionar('cuenta.xhtml')}" icon="pi pi-user" />
                                 <p:divider/>
                                 <p:menuitem value="Dashboard" action="#{rutasController.redireccionar('productos_admin.xhtml')}" rendered="#{sessionScope.usuarioTO.roleNombre eq 'admin'}" icon="pi pi-th-large" />
                                 <p:divider/>

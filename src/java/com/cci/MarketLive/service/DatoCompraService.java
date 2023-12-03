@@ -80,7 +80,26 @@ public class DatoCompraService extends Conexion implements ICrud<DatoCompraTO> {
 
     @Override
     public boolean update(DatoCompraTO objeto) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+
+            String query = "UPDATE datos_compras SET direccion_envio = ? WHERE usuario_id = ?";
+            stmt = super.getConexion().prepareStatement(query);
+            stmt.setString(1, objeto.getDireccionEnvio());
+            stmt.setInt(2, objeto.getId());
+
+            stmt.execute();
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
     }
 
     @Override

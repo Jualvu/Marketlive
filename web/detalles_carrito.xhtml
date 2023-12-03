@@ -20,52 +20,48 @@
         <hr/>    
 
         <h:form style="margin: 1rem;width: 250px;">
-            <p:commandButton value="Guardar estado del carrito" styleClass="btn_detalles ui-button-success" actionListener="#{comprasController.realizarCompra()}" style="font-size: smaller;" />
+            <p:commandButton value="Guardar estado del carrito" styleClass="btn_detalles ui-button-success" actionListener="#{itemController.updateItems()}" style="font-size: smaller;" />
         </h:form>
 
         <div class="productos_carrito" style="display: flex;justify-content: space-between;">
 
             <div class="card crud-demo" style="max-height: 400px; padding: 0.5rem;; overflow-y: auto;">
-                <h:form id="form" >
+                <h:form id="form_detalles" >
                     <p:growl id="messages" showDetail="true" />
 
-                    <table class="table_carrito" style="width: 100%;">
+                    <h:dataTable id="detalles_carrito_table" value="#{itemController.items}" var="item" rendered="#{not empty itemController.items}"
+                                 styleClass="table_carrito" style="width: 100%">
 
-                        <thead>
-                            <th>#</th>
-                            <th>Imagen</th>
-                            <th>Nombre</th>
-                            <th>Cantidad</th>
-                            <th>Precio</th>
-                            <th>Borrar</th>
-                        </thead>
-                        <!-- Fila de items -->
-                        <tbody>
-                            <ui:repeat value="#{itemController.items}" var="item" varStatus="loop" rendered="#{not empty itemController.items}">
-                                <tr>
-                                    <!-- Índice -->
-                                    <td>[#{loop.index + 1}]</td>
-                                    <!-- Elemento 1: Imagen -->
-                                    <td><p:graphicImage name="images/1.jpg" alt="1.jpg" style="width: 70px; height: 70px;" /></td>
+                        <h:column>
+                            <f:facet name="header">#</f:facet>
+                            <h:outputText value="[#{itemController.items.indexOf(item) + 1}]" />
+                        </h:column>
 
-                                    <!-- Elemento 2: Título -->
-                                    <td><p:outputLabel value="#{item.nombreProducto}" styleClass="cart-item-title" style="font-size: smaller;" /></td>
+                        <h:column>
+                            <f:facet name="header">Imagen</f:facet>
+                            <p:graphicImage name="images/1.jpg" alt="1.jpg" style="width: 70px; height: 70px;" />
+                        </h:column>
 
-                                    <!-- Elemento 3: Cantidad -->
-                                    <td>
-                                        <p:inputNumber value="#{item.cantidad}" styleClass="cart-item-title" style="font-size: smaller; text-align: center;" />
-                                    </td>
+                        <h:column>
+                            <f:facet name="header">Nombre</f:facet>
+                            <h:outputLabel value="#{item.nombreProducto}" styleClass="cart-item-title" style="font-size: smaller;" />
+                        </h:column>
 
-                                    <!-- Elemento 4: Precio -->
-                                    <td><p:outputLabel value="₡ #{item.precio}" styleClass="cart-item-price" style="font-size: smaller;" /></td>
+                        <h:column>
+                            <f:facet name="header">Cantidad</f:facet>
+                            <p:inputNumber value="#{item.cantidad}" styleClass="cart-item-title" style="font-size: smaller; text-align: center;" />
+                        </h:column>
 
-                                    <!-- Elemento 5: Borrar -->
-                                    <td><p:commandButton icon="pi pi-times" actionListener="#{itemController.eliminarItem(item.id)}" styleClass="ui-button-danger" style="font-size: smaller;" /></td>
+                        <h:column>
+                            <f:facet name="header">Precio</f:facet>
+                            <h:outputText value="₡ #{item.precio}" styleClass="cart-item-price" style="font-size: smaller;" />
+                        </h:column>
 
-                                </tr>
-                            </ui:repeat>
-                        </tbody>
-                    </table>
+                        <h:column>
+                            <f:facet name="header">Borrar</f:facet>
+                            <p:commandButton icon="pi pi-times" actionListener="#{itemController.eliminarItem(item.id)}" styleClass="ui-button-danger" style="font-size: smaller;" />
+                        </h:column>
+                    </h:dataTable>
 
                 </h:form>
             </div>

@@ -4,9 +4,6 @@
 .table_carrito{
     text-align: center;
 }
-.table_carrito thead th{
-    border: 1px solid rgba(0,0,0,0.2);
-}
 .info_compra{
     display: flex;
     justify-content: space-between;
@@ -14,7 +11,6 @@
     flex-direction: column;
     width: 30%;
     padding: 1rem;
-    border: 1px solid;
     border-radius: 5px;
 }
 .info_compra ul {

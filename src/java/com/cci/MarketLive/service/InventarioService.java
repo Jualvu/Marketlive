@@ -135,7 +135,7 @@ public class InventarioService extends Conexion implements ICrud<InventarioTO>{
         inventario = new ArrayList<InventarioTO>();
 
         try {
-            stmt = super.getConexion().prepareStatement("SELECT * FROM inventario WHERE producto_id=?");
+            stmt = super.getConexion().prepareStatement("SELECT * FROM inventario WHERE producto_id=? ORDER BY id DESC");
             stmt.setInt(1, productoId);
             rs = stmt.executeQuery();
 

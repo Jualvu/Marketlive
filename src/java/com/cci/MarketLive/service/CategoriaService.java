@@ -49,7 +49,7 @@ public class CategoriaService extends Conexion implements ICrud<CategoriaTO> {
             stmt = super.getConexion().prepareStatement(query);
             stmt.setString(1, objeto.getNombre());
             stmt.setString(2, objeto.getDescripcion());
-            stmt.setInt(7, objeto.getId());
+            stmt.setInt(3, objeto.getId());
 
             stmt.executeUpdate();
 

@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 
 @ManagedBean(name = "categoriaController")
-@RequestScoped
+@SessionScoped
 public class CategoriaController implements Serializable {
 
     private List<CategoriaTO> categorias;
@@ -26,18 +26,13 @@ public class CategoriaController implements Serializable {
 
     public CategoriaController() {
         try {
-            servicioCategoria = new CategoriaService();
             selectedCategoria = new CategoriaTO();
-
-            categorias = servicioCategoria.readAll();
             selectedCategorias = new ArrayList<>();
+            servicioCategoria = new CategoriaService();
+            categorias = servicioCategoria.readAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public void openNew(CategoriaTO categoria) {
-        selectedCategoria = categoria;
     }
 
     public void saveCategoria() {
@@ -68,8 +63,8 @@ public class CategoriaController implements Serializable {
 
             }
 
-            PrimeFaces.current().executeScript("PF('manageCategoriaDialog').hide()");
-            PrimeFaces.current().ajax().update("form:messages", "form:dt-products");
+            PrimeFaces.current().executeScript("PF('manageCategoríaDialog').hide()");
+            PrimeFaces.current().ajax().update("form:messages", "form:dt-categorias");
 
         } catch (SQLException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error en la base de datos"));
@@ -79,7 +74,6 @@ public class CategoriaController implements Serializable {
 
     public void deleteCategoria() {
         try {
-            System.out.println("ID a eliminar: " + getSelectedCategoria().getId());
             boolean delete = servicioCategoria.delete(this.selectedCategoria.getId());
 
             if (delete) {
@@ -91,11 +85,15 @@ public class CategoriaController implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al eliminar la categoria"));
             }
 
-            PrimeFaces.current().executeScript("PF('manageCategoriaDialog').hide()");
-            PrimeFaces.current().ajax().update("form:messages", "form:dt-categoria");
+            PrimeFaces.current().executeScript("PF('manageCategoríaDialog').hide()");
+            PrimeFaces.current().ajax().update("form:messages", "form:dt-categorias");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void openNew() {
+        this.selectedCategoria = new CategoriaTO();
     }
 
     public List<CategoriaTO> getCategorias() {
@@ -111,7 +109,6 @@ public class CategoriaController implements Serializable {
     }
 
     public void setSelectedCategoria(CategoriaTO selectedCategoria) {
-        System.out.println("Estableciendo selectedCategoria: " + selectedCategoria.getId());
         this.selectedCategoria = selectedCategoria;
     }
 

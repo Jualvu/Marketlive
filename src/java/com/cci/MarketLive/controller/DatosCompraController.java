@@ -43,7 +43,7 @@ public class DatosCompraController {
 
                 datoCompraTO.setDireccionEnvio(this.selectedDatoCompra.getDireccionEnvio());
                 datoCompraTO.setMetodoPago(this.selectedDatoCompra.getMetodoPago());
-                datoCompraTO.setUsuarioId(2);
+                datoCompraTO.setUsuarioId(usuarioTO.getId());
 
                 boolean create = this.datosCompraService.create(datoCompraTO);
 

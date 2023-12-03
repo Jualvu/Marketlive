@@ -45,8 +45,8 @@
 
                     <p:commandButton icon="pi pi-align-justify" type="button" onclick="PF('sidebar1').show()"/>
 
-                    <p:menuButton value="#{sessionScope.usuarioTO.nombre}" rendered="#{not empty sessionScope.usuarioTO}" icon="">
-                        <p:menuitem value="Cuenta" action="#{rutasController.redireccionar('panel_admin.xhtml')}" icon="pi pi-user" />
+                    <p:menuButton value="#{sessionScope.usuarioTO.nombre}" icon="">
+                        <p:menuitem value="Cuenta" action="#{rutasController.redireccionar('cuenta.xhtml')}" icon="pi pi-user" />
                         <p:divider/>
                         <p:menuitem value="Tienda" action="#{rutasController.redireccionar('index.xhtml')}" icon="pi pi-shopping-cart" />
                         <p:divider/>

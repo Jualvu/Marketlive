@@ -24,18 +24,17 @@ public class ProductoController implements Serializable {
     private GeneralHelper generalHelper;
     private List<ProductoTO> busqueda;
     private List<ProductoTO> listaProductoCategoria;
-    
-    
+
     private ProductoService servicioProducto;
     private CategoriaService servicioCategoria;
-    
+
     private String producto;
     private String categoria;
-    
+
     private CategoriaTO categoriaTO;
 
     int idCategoria;
-    
+
     public ProductoController() {
 
         productos = new ArrayList<>();
@@ -43,17 +42,13 @@ public class ProductoController implements Serializable {
         generalHelper = new GeneralHelper();
         busqueda = new ArrayList<ProductoTO>();
         listaProductoCategoria = new ArrayList<ProductoTO>();
-        
-        
 
         try {
             servicioProducto = new ProductoService();
             setProductos(servicioProducto.readAll());
             setBusqueda(servicioProducto.listarBusqueda(producto));
-            
-            
+
             setListaProductoCategoria(servicioProducto.readAllByCategoria(idCategoria));
-            
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,12 +66,12 @@ public class ProductoController implements Serializable {
             e.printStackTrace();
         }
     }
-    
-    public void readProductoByCategoria(int idCategoria2){
-        
+
+    public void readProductoByCategoria(int idCategoria2) {
+
         try {
-            
-            idCategoria= idCategoria2;
+
+            idCategoria = idCategoria2;
             setListaProductoCategoria(servicioProducto.readAllByCategoria(idCategoria2));
 
             for (ProductoTO pro : getListaProductoCategoria()) {
@@ -85,61 +80,20 @@ public class ProductoController implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        
-    }
 
-    public List<ProductoTO> getProductos() {
-        return productos;
-    }
-
-    public void setProductos(List<ProductoTO> listaProductos) {
-        this.productos = listaProductos;
-    }
-
-    public ProductoTO getSelectedProducto() {
-        return selectedProducto;
-    }
-
-    public void setSelectedProducto(ProductoTO selectedProducto) {
-        this.selectedProducto = selectedProducto;
-    }
-
-    public List<ProductoTO> getSelectedProductos() {
-        return selectedProductos;
-    }
-
-    public void setSelectedProductos(List<ProductoTO> selectedProductos) {
-        this.selectedProductos = selectedProductos;
-    }
-
-    public List<ProductoTO> getBusqueda() {
-        return busqueda;
-    }
-
-    public void setBusqueda(List<ProductoTO> busqueda) {
-        this.busqueda = busqueda;
-    }
-
-    public String getProducto() {
-        return producto;
-    }
-
-    public void setProducto(String producto) {
-        this.producto = producto;
     }
 
     public void openNew() {
         this.selectedProducto = new ProductoTO();
     }
 
-    public void updateProductoCantidad(ProductoTO producto, double cantidad) throws SQLException{
-        
+    public void updateProductoCantidad(ProductoTO producto, double cantidad) throws SQLException {
+
         servicioProducto.updateCantidad(producto, cantidad);
         setProductos(servicioProducto.readAll());
         generalHelper.redireccionar("/faces/productos_admin.xhtml");
     }
-    
+
     public void saveProducto() {
         try {
             if (this.selectedProducto.getId() == 0) {
@@ -209,16 +163,36 @@ public class ProductoController implements Serializable {
         }
     }
 
-    public boolean hasSelectedProductos() {
-        return this.selectedProductos != null && !this.selectedProductos.isEmpty();
+    public List<ProductoTO> getProductos() {
+        return productos;
     }
 
-    public GeneralHelper getGeneralHelper() {
-        return generalHelper;
+    public void setProductos(List<ProductoTO> productos) {
+        this.productos = productos;
     }
 
-    public void setGeneralHelper(GeneralHelper generalHelper) {
-        this.generalHelper = generalHelper;
+    public ProductoTO getSelectedProducto() {
+        return selectedProducto;
+    }
+
+    public void setSelectedProducto(ProductoTO selectedProducto) {
+        this.selectedProducto = selectedProducto;
+    }
+
+    public List<ProductoTO> getSelectedProductos() {
+        return selectedProductos;
+    }
+
+    public void setSelectedProductos(List<ProductoTO> selectedProductos) {
+        this.selectedProductos = selectedProductos;
+    }
+
+    public List<ProductoTO> getBusqueda() {
+        return busqueda;
+    }
+
+    public void setBusqueda(List<ProductoTO> busqueda) {
+        this.busqueda = busqueda;
     }
 
     public List<ProductoTO> getListaProductoCategoria() {
@@ -229,22 +203,12 @@ public class ProductoController implements Serializable {
         this.listaProductoCategoria = listaProductoCategoria;
     }
 
-    public CategoriaTO getCategoriaTO() {
-        return categoriaTO;
+    public String getProducto() {
+        return producto;
     }
 
-    public void setCategoriaTO(CategoriaTO categoriaTO) {
-        this.categoriaTO = categoriaTO;
-    }
-
-
-
-    public ProductoService getServicioProducto() {
-        return servicioProducto;
-    }
-
-    public void setServicioProducto(ProductoService servicioProducto) {
-        this.servicioProducto = servicioProducto;
+    public void setProducto(String producto) {
+        this.producto = producto;
     }
 
     public String getCategoria() {
@@ -254,15 +218,5 @@ public class ProductoController implements Serializable {
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
-
-    public CategoriaService getServicioCategoria() {
-        return servicioCategoria;
-    }
-
-    public void setServicioCategoria(CategoriaService servicioCategoria) {
-        this.servicioCategoria = servicioCategoria;
-    }
-    
-    
 
 }

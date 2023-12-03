@@ -115,6 +115,16 @@ public class ItemController implements Serializable {
         }
     }
 
+    public void updateItems() {
+        try {
+
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void limpiarCarrito() {
         try {
             servicioItem.limpiarCarrito(usuarioTO.getId());

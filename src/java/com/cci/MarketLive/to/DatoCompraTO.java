@@ -71,4 +71,18 @@ public class DatoCompraTO {
         this.usuarioId = usuarioId;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("DatoCompraTO{");
+        sb.append("id=").append(id);
+        sb.append(", direccionEnvio=").append(direccionEnvio);
+        sb.append(", total=").append(total);
+        sb.append(", fechaCreacion=").append(fechaCreacion);
+        sb.append(", metodoPago=").append(metodoPago);
+        sb.append(", usuarioId=").append(usuarioId);
+        sb.append('}');
+        return sb.toString();
+    }
+
 }

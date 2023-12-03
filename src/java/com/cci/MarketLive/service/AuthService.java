@@ -57,8 +57,6 @@ public class AuthService extends Conexion {
     public boolean register(UsuarioTO objeto) throws SQLException {
         try {
 
-            UsuarioTO usuarioTO = new UsuarioTO();
-
             // Obtener la fecha y hora actual
             java.util.Date utilDate = new java.util.Date();
             Timestamp fechaActual = new Timestamp(utilDate.getTime());
@@ -70,6 +68,53 @@ public class AuthService extends Conexion {
             stmt.setString(3, objeto.getPassword());
             stmt.setTimestamp(4, fechaActual);
             stmt.setInt(5, objeto.getRoleId());
+            stmt.execute();
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    public boolean updatePassword(UsuarioTO objeto) throws SQLException {
+        try {
+
+            String query = "UPDATE usuarios SET password = ? WHERE id = ?";
+            stmt = super.getConexion().prepareStatement(query);
+            stmt.setString(1, objeto.getPassword());
+            stmt.setInt(2, objeto.getId());
+
+            stmt.execute();
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    public boolean updateData(UsuarioTO objeto) throws SQLException {
+        try {
+
+            String query = "UPDATE usuarios SET nombre = ?, correo = ? WHERE id = ?";
+            stmt = super.getConexion().prepareStatement(query);
+            stmt.setString(1, objeto.getNombre());
+            stmt.setString(2, objeto.getCorreo());
+            stmt.setInt(3, objeto.getId());
+
             stmt.execute();
 
             return true;

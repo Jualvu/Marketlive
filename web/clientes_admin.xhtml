@@ -13,7 +13,7 @@
 
                 <p:toolbar>
                     <p:toolbarGroup>
-                        <p:commandButton value="Agregar Cliente" icon="pi pi-plus" actionListener="#{clienteController.openNew}"
+                        <p:commandButton value="Agregar Usuario" icon="pi pi-plus" actionListener="#{clienteController.openNew}"
                                          update=":dialogs:manage-cliente-content" oncomplete="PF('manageClienteDialog').show()"
                                          styleClass="ui-button-success" style="margin-right: .5rem">
                             <p:resetInput target=":dialogs:manage-cliente-content" />
@@ -24,14 +24,6 @@
                 <p:dataTable id="dt-clientes" widgetVar="dtClientes" var="cliente" value="#{clienteController.usuarios}"
                              reflow="true" styleClass="clientes-table" selection="#{clienteController.selectedUsuarios}"
                              rowKey="#{cliente.id}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
-                    <f:facet name="header">
-                        <div class="clientes-table-header">
-                            <span style="font-weight: bold">Clientes</span>
-                            <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
-                                <p:inputText id="globalFilter" onkeyup="PF('dtClientes').filter()" placeholder="Search" />
-                            </span>
-                        </div>
-                    </f:facet>
 
                     <p:column headerText="Nombre" sortBy="#{cliente.nombre}">
                         <h:outputText value="#{cliente.nombre}" />
@@ -99,6 +91,15 @@
                     </f:facet>
                 </p:dialog>
 
+                 <p:confirmDialog widgetVar="deleteClienteDialog" showEffect="fade" width="300"
+                                 message="Eliminar el usuario?" header="Confirmar" severity="warn">
+                     <p:commandButton value="Si" icon="pi pi-check" actionListener="#{clienteController.deleteUsuario()}"
+                                     process="@this"
+                                     oncomplete="PF('deleteClienteDialog').hide()" />
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                     onclick="PF('deleteClienteDialog').hide()" />
+                </p:confirmDialog>
+                
                 <p:confirmDialog global="true" showEffect="fade" width="300">
                     <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"

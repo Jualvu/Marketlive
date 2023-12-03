@@ -44,8 +44,9 @@ public class ClienteController implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario actualizado"));
             }
 
-            PrimeFaces.current().executeScript("PF('manageUsuarioDialog').hide()");
-            PrimeFaces.current().ajax().update("form:messages", "form:dt-usuarios");
+            PrimeFaces.current().executeScript("PF('manageClienteDialog').hide()");
+            PrimeFaces.current().ajax().update("form:messages", "form:dt-clientes");
+
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al guardar el usuario"));
             e.printStackTrace();
@@ -63,13 +64,12 @@ public class ClienteController implements Serializable {
                 this.selectedUsuarios.remove(this.selectedUsuario);
                 this.selectedUsuario = null;
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario Eliminado"));
-                PrimeFaces.current().executeScript("PF('manageUsuarioDialog').hide()");
-                PrimeFaces.current().ajax().update("form:messages", "form:dt-usuarios");
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al eliminar el usuario"));
-                PrimeFaces.current().executeScript("PF('manageUsuarioDialog').hide()");
-                PrimeFaces.current().ajax().update("form:messages", "form:dt-usuarios");
             }
+
+            PrimeFaces.current().executeScript("PF('manageClienteDialog').hide()");
+            PrimeFaces.current().ajax().update("form:messages", "form:dt-clientes");
         } catch (Exception e) {
             e.printStackTrace();
         }
