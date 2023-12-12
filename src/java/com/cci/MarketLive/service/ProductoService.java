@@ -25,7 +25,7 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
 
             Timestamp fechaActual = Timestamp.valueOf(now);
 
-            String query = "INSERT INTO productos (tipo, codigo, nombre, descripcion, precio, stock, fecha_creado, usuario_id, categoria_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO productos (tipo, codigo, nombre, descripcion, precio, stock, ruta_imagen, fecha_creado, usuario_id, categoria_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             stmt = super.getConexion().prepareStatement(query);
             stmt.setString(1, objeto.getTipo());
             stmt.setString(2, objeto.getCodigo());
@@ -33,9 +33,10 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
             stmt.setString(4, objeto.getDescripcion());
             stmt.setDouble(5, objeto.getPrecio());
             stmt.setDouble(6, objeto.getStock());
-            stmt.setTimestamp(7, fechaActual);
-            stmt.setInt(8, 1);
-            stmt.setInt(9, objeto.getCategoriaId());
+            stmt.setString(7, objeto.getRutaImagen());
+            stmt.setTimestamp(8, fechaActual);
+            stmt.setInt(9, 1);
+            stmt.setInt(10, objeto.getCategoriaId());
 
             stmt.execute();
 
@@ -61,7 +62,7 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
     public boolean update(ProductoTO objeto) throws SQLException {
         try {
             System.out.println("sa" + objeto.getId());
-            String query = "UPDATE productos SET tipo = ?, codigo = ?, nombre = ?, descripcion = ?, precio = ?, stock = ? WHERE id = ?";
+            String query = "UPDATE productos SET tipo = ?, codigo = ?, nombre = ?, descripcion = ?, precio = ?, stock = ?, ruta_imagen = ? WHERE id = ?";
             stmt = super.getConexion().prepareStatement(query);
             stmt.setString(1, objeto.getTipo());
             stmt.setString(2, objeto.getCodigo());
@@ -69,7 +70,8 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
             stmt.setString(4, objeto.getDescripcion());
             stmt.setDouble(5, objeto.getPrecio());
             stmt.setDouble(6, objeto.getStock());
-            stmt.setInt(7, objeto.getId());
+            stmt.setString(7, objeto.getRutaImagen());
+            stmt.setInt(8, objeto.getId());
 
             stmt.executeUpdate();
 
@@ -96,7 +98,7 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
             stmt.setString(3, objeto.getNombre());
             stmt.setString(4, objeto.getDescripcion());
             stmt.setDouble(5, objeto.getPrecio());
-            stmt.setDouble(6, objeto.getStock()+cantidad);
+            stmt.setDouble(6, objeto.getStock() + cantidad);
             stmt.setInt(7, objeto.getId());
 
             stmt.executeUpdate();
@@ -113,7 +115,7 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
             }
         }
     }
-    
+
     @Override
     public boolean delete(int id) throws SQLException {
         PreparedStatement stmt1 = null;
@@ -170,6 +172,7 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
                 int usuarioId = rs.getInt("usuario_id");
                 int categoriaId = rs.getInt("categoria_id");
                 String categoriaNombre = rs.getString("categoria_nombre");
+                String rutaImagen = rs.getString("ruta_imagen");
 
                 productoTO.setId(id);
                 productoTO.setTipo(tipo);
@@ -181,6 +184,7 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
                 productoTO.setUsuarioId(usuarioId);
                 productoTO.setCategoriaId(categoriaId);
                 productoTO.setCategoriaNombre(categoriaNombre);
+                productoTO.setRutaImagen(rutaImagen);
 
                 productos.add(productoTO);
             }
@@ -222,6 +226,8 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
                 double stock = rs.getDouble("stock");
                 int usuarioId = rs.getInt("usuario_id");
                 int categoriaId = rs.getInt("categoria_id");
+                String categoriaNombre = rs.getString("categoria_nombre");
+                String rutaImagen = rs.getString("ruta_imagen");
 
                 productoTO.setId(id);
                 productoTO.setTipo(tipo);
@@ -232,6 +238,8 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
                 productoTO.setStock(stock);
                 productoTO.setUsuarioId(usuarioId);
                 productoTO.setCategoriaId(categoriaId);
+                productoTO.setCategoriaNombre(categoriaNombre);
+                productoTO.setRutaImagen(rutaImagen);
 
                 productos.add(productoTO);
             }
@@ -247,8 +255,7 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
 
         return productos;
     }
-    
-    
+
     public List<ProductoTO> listarBusqueda(String producto) throws SQLException {
         productos = new ArrayList<ProductoTO>();
 
@@ -268,6 +275,9 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
                 double precio = rs.getDouble("precio");
                 double stock = rs.getDouble("stock");
                 int usuarioId = rs.getInt("usuario_id");
+                int categoriaId = rs.getInt("categoria_id");
+                String categoriaNombre = rs.getString("categoria_nombre");
+                String rutaImagen = rs.getString("ruta_imagen");
 
                 productoTO.setId(id);
                 productoTO.setTipo(tipo);
@@ -277,6 +287,9 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
                 productoTO.setPrecio(precio);
                 productoTO.setStock(stock);
                 productoTO.setUsuarioId(usuarioId);
+                productoTO.setCategoriaId(categoriaId);
+                productoTO.setCategoriaNombre(categoriaNombre);
+                productoTO.setRutaImagen(rutaImagen);
 
                 productos.add(productoTO);
             }
