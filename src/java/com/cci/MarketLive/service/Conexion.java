@@ -11,7 +11,7 @@ public abstract class Conexion {
     private String nombreBD = "market_live";
     private String url = urlBase + nombreBD + "?serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL";
     private String usuario = "root";
-    private String password = "admin";
+    private String password = "Root123!";
 
     public Conexion() {
         try {

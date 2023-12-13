@@ -54,6 +54,10 @@
                     <p:column headerText="Categoria" sortBy="#{producto.categoriaNombre}">
                         <h:outputText value="#{producto.categoriaNombre}" style="font-weight: 700"/>
                     </p:column>
+                    
+                    <p:column headerText="Tienda" sortBy="#{producto.tiendaNombre}">
+                        <h:outputText value="#{producto.tiendaNombre}" style="font-weight: 700"/>
+                    </p:column>
 
                     <p:column exportable="false">
                         <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-product-content"
@@ -138,6 +142,14 @@
                                 <p:selectOneMenu id="categorias" value="#{productoController.selectedProducto.categoriaId}" required="true" >
                                     <f:selectItem itemLabel="Selecciona un elemento"  itemValue=""/>
                                     <f:selectItems value="#{categoriaController.categorias}" var="categoria" itemLabel="[#{categoria.id}]-#{categoria.nombre}" itemValue="#{categoria.id}" />
+                                </p:selectOneMenu>
+                            </div>
+                            
+                            <div class="field">
+                                <p:outputLabel for="tiendas">Tiendas</p:outputLabel>
+                                <p:selectOneMenu id="tiendas" value="#{productoController.selectedProducto.tiendaId}" required="true" >
+                                    <f:selectItem itemLabel="Selecciona un elemento"  itemValue=""/>
+                                    <f:selectItems value="#{tiendaController.tiendas}" var="tienda" itemLabel="[#{tienda.id}]-#{tienda.nombre}" itemValue="#{tienda.id}" />
                                 </p:selectOneMenu>
                             </div>
 

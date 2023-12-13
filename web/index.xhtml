@@ -29,9 +29,11 @@
                         <f:facet name="subtitle">
                             ₡ #{producto.precio}
                         </f:facet>
+                        
 
                         <p>  #{producto.descripcion}</p>
-
+                        <p>  Tienda: #{producto.tiendaNombre}</p>
+                        
                         <f:facet name="footer">
                             <div style="display: flex; align-items: center; justify-content: space-between;">
                                 <p:commandButton icon="pi pi-plus" value="Agregar al carrito" styleClass="ui-button-success" style="width: 100%; text-align: center;" 

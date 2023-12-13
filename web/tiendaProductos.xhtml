@@ -9,25 +9,12 @@
        
 <div class="card">
 
-            <div class="card">
-                <h:form>
-                    <p:breadCrumb>
-                        <p:menuitem value="Tecnologia"/>
-                        <p:menuitem value="Tecnologia" action="#{productoController.readProductoByCategoria(1)}" update="productos"/>
-                        <p:menuitem value="Ropa" action="#{productoController.readProductoByCategoria(2)}" update="productos"/>
-                        <p:menuitem value="Juguetes" action="#{productoController.readProductoByCategoria(3)}" update="productos"/>
-                        <p:menuitem value="Hogar" action="#{productoController.readProductoByCategoria(4)}" update="productos"/>
-                        <p:menuitem value="Higiene" action="#{productoController.readProductoByCategoria(5)}" update="productos"/>
-                        <p:menuitem value="Comida" action="#{productoController.readProductoByCategoria(6)}" update="productos"/>
-                    </p:breadCrumb>
-                </h:form>
-            </div>
             
-        
+    <h1> Productos de tienda #{tiendaController.tiendaNombre}</h1>
             
     <h:form id="productos">
         <div class="productos_container" style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
-            <ui:repeat value="#{productoController.listaProductoCategoria}" var="producto" varStatus="loop">
+            <ui:repeat value="#{tiendaController.selectedProductosByTienda}" var="producto" varStatus="loop">
 
                 <p:card style="width: 280px; margin: 0.5rem;">
                     <f:facet name="header">

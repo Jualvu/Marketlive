@@ -1,0 +1,96 @@
+<ui:composition template="/layouts/admin_layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="main">
+
+        <div class="card crud-demo">
+            <h:form id="form" >
+                <p:growl id="messages" showDetail="true" />
+
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="Agregar Tienda" icon="pi pi-plus" actionListener="#{tiendaController.openNew(tienda)}"
+                                         update=":dialogs:manage-tienda-content" oncomplete="PF('manageTiendaDialog').show()"
+                                         styleClass="ui-button-success" style="margin-right: .5rem">
+                            <p:resetInput target=":dialogs:manage-tienda-content" />
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable id="dt-tiendas" widgetVar="dtTiendas" var="tienda" value="#{tiendaController.tiendas}"
+                             reflow="true" styleClass="tiendas-table" selection="#{tiendaController.selectedTienda}"
+                             rowKey="#{tienda.id}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+
+                    <p:column headerText="Nombre" sortBy="#{tienda.nombre}">
+                        <h:outputText value="#{tienda.nombre}" />
+                    </p:column>
+                    <p:column headerText="Descripcion" sortBy="#{tienda.descripcion}">
+                        <h:outputText value="#{tienda.descripcion}" />
+                    </p:column>
+
+                    <p:column exportable="false">
+                        <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-tienda-content"
+                                         oncomplete="PF('manageTiendaDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                            <f:setPropertyActionListener value="#{tienda}" target="#{tiendaController.selectedTienda}" />
+                            <p:resetInput target=":dialogs:manage-tienda-content" />
+                        </p:commandButton>
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                         process="@this"
+                                         oncomplete="PF('deleteTiendaDialog').show()">
+                            <f:setPropertyActionListener value="#{tienda}" target="#{tiendaController.selectedTienda}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+
+            </h:form>
+
+            <h:form id="dialogs">
+                <p:dialog header="Agregar Tienda" showEffect="fade" modal="true" widgetVar="manageTiendaDialog"
+                          responsive="true">
+                    <p:outputPanel id="manage-tienda-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty tiendaController.selectedTienda}">
+
+                            <div class="field">
+                                <p:outputLabel for="nombre">Nombre</p:outputLabel>
+                                <p:inputText id="nombre" value="#{tiendaController.selectedTienda.nombre}" required="true" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="descripcion">Descripcion</p:outputLabel>
+                                <p:inputText id="descripcion" value="#{tiendaController.selectedTienda.descripcion}" required="true" />
+                            </div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check" actionListener="#{tiendaController.saveTienda()}"
+                                         update="manage-tienda-content" process="manage-tienda-content @this" />
+
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageTiendaDialog').hide()"
+                                         class="ui-button-secondary" type="button" />
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="deleteCategoríaDialog" showEffect="fade" width="300"
+                                 message="Eliminar el categoría?" header="Confirmar" severity="warn">
+                    <p:commandButton value="Si" icon="pi pi-check" actionListener="#{tiendaController.deleteTienda()}"
+                                     process="@this"
+                                     oncomplete="PF('deleteTiendaDialog').hide()" />
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                     onclick="PF('deleteTiendaDialog').hide()" />
+                </p:confirmDialog>
+
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                     icon="pi pi-times" />
+                </p:confirmDialog>
+            </h:form>
+        </div>
+
+    </ui:define>
+</ui:composition>

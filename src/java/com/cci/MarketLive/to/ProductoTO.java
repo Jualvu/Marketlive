@@ -13,12 +13,18 @@ public class ProductoTO {
     private int usuarioId;
     private int categoriaId;
     private String categoriaNombre;
+
+    private int tiendaId;
+    private String TiendaNombre;
+
     private String rutaImagen;
+
 
     public ProductoTO() {
     }
 
-    public ProductoTO(int id, String tipo, String codigo, String nombre, String descripcion, double precio, double stock, String tipoCobro, int usuarioId, int categoriaId, String categoriaNombre, String rutaImagen) {
+    public ProductoTO(int id, String tipo, String codigo, String nombre, String descripcion, double precio, double stock, String tipoCobro, int usuarioId, int categoriaId, String categoriaNombre, int tiendaId, String TiendaNombre, String rutaImagen) {
+
         this.id = id;
         this.tipo = tipo;
         this.codigo = codigo;
@@ -30,8 +36,13 @@ public class ProductoTO {
         this.usuarioId = usuarioId;
         this.categoriaId = categoriaId;
         this.categoriaNombre = categoriaNombre;
+        this.tiendaId = tiendaId;
+        this.TiendaNombre = TiendaNombre;
         this.rutaImagen = rutaImagen;
+
     }
+
+    
 
     public int getId() {
         return id;
@@ -121,12 +132,29 @@ public class ProductoTO {
         this.categoriaNombre = categoriaNombre;
     }
 
+
+    public int getTiendaId() {
+        return tiendaId;
+    }
+
+    public void setTiendaId(int tiendaId) {
+        this.tiendaId = tiendaId;
+    }
+
+    public String getTiendaNombre() {
+        return TiendaNombre;
+    }
+
+    public void setTiendaNombre(String TiendaNombre) {
+        this.TiendaNombre = TiendaNombre;
+
     public String getRutaImagen() {
         return rutaImagen;
     }
 
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
+
     }
 
 }
