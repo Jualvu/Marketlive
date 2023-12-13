@@ -147,7 +147,8 @@ public class ProductoTO {
 
     public void setTiendaNombre(String TiendaNombre) {
         this.TiendaNombre = TiendaNombre;
-
+    }
+    
     public String getRutaImagen() {
         return rutaImagen;
     }
