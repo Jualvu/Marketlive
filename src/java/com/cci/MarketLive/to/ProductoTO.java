@@ -13,13 +13,18 @@ public class ProductoTO {
     private int usuarioId;
     private int categoriaId;
     private String categoriaNombre;
+
     private int tiendaId;
     private String TiendaNombre;
+
+    private String rutaImagen;
+
 
     public ProductoTO() {
     }
 
-    public ProductoTO(int id, String tipo, String codigo, String nombre, String descripcion, double precio, double stock, String tipoCobro, int usuarioId, int categoriaId, String categoriaNombre, int tiendaId, String TiendaNombre) {
+    public ProductoTO(int id, String tipo, String codigo, String nombre, String descripcion, double precio, double stock, String tipoCobro, int usuarioId, int categoriaId, String categoriaNombre, int tiendaId, String TiendaNombre, String rutaImagen) {
+
         this.id = id;
         this.tipo = tipo;
         this.codigo = codigo;
@@ -33,6 +38,8 @@ public class ProductoTO {
         this.categoriaNombre = categoriaNombre;
         this.tiendaId = tiendaId;
         this.TiendaNombre = TiendaNombre;
+        this.rutaImagen = rutaImagen;
+
     }
 
     
@@ -125,6 +132,7 @@ public class ProductoTO {
         this.categoriaNombre = categoriaNombre;
     }
 
+
     public int getTiendaId() {
         return tiendaId;
     }
@@ -139,6 +147,14 @@ public class ProductoTO {
 
     public void setTiendaNombre(String TiendaNombre) {
         this.TiendaNombre = TiendaNombre;
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
+
     }
 
 }

@@ -4,23 +4,40 @@ import com.cci.MarketLive.service.CategoriaService;
 import com.cci.MarketLive.to.ProductoTO;
 import com.cci.MarketLive.service.ProductoService;
 import com.cci.MarketLive.to.CategoriaTO;
+
 import com.cci.MarketLive.to.UsuarioTO;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
 import javax.servlet.http.HttpSession;
+
+import javax.servlet.ServletContext;
+
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.file.UploadedFile;
 
 @ManagedBean(name = "productoController")
 @SessionScoped
 public class ProductoController implements Serializable {
+
+    private String RUTA_IMAGEN = "C:\\Users\\chris\\Documents\\Universidad\\Proyecto 2\\Marketlive\\web\\";
 
     private List<ProductoTO> productos;
     private ProductoTO selectedProducto;
@@ -39,6 +56,7 @@ public class ProductoController implements Serializable {
 
     private CategoriaTO categoriaTO;
 
+
     int idCategoria;
     int idTienda;
     
@@ -47,6 +65,12 @@ public class ProductoController implements Serializable {
     @ManagedProperty("#{tiendaController}")
     private TiendaController tiendaController;
     
+
+    private int idCategoria;
+
+    private UploadedFile imagenProducto;
+
+
     public ProductoController() {
 
         productos = new ArrayList<>();
@@ -139,6 +163,7 @@ public class ProductoController implements Serializable {
         try {
             if (this.selectedProducto.getId() == 0) {
 
+
                 ProductoTO productoTO = new ProductoTO();
                 productoTO.setTipo(this.selectedProducto.getTipo());
                 productoTO.setCodigo(this.selectedProducto.getCodigo());
@@ -150,7 +175,12 @@ public class ProductoController implements Serializable {
                 productoTO.setTiendaId(this.selectedProducto.getTiendaId());
                 productoTO.setUsuarioId(this.selectedProducto.getUsuarioId());
 
-                servicioProducto.create(productoTO);
+                if (imagenProducto != null) {
+                    uploadImage();
+                }
+
+
+                servicioProducto.create(this.selectedProducto);
 
                 setProductos(servicioProducto.readAll());
 
@@ -159,16 +189,17 @@ public class ProductoController implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Producto agregado"));
             } else {
 
-                ProductoTO productoTO = new ProductoTO();
-                productoTO.setId(this.selectedProducto.getId());
-                productoTO.setTipo(this.selectedProducto.getTipo());
-                productoTO.setCodigo(this.selectedProducto.getCodigo());
-                productoTO.setNombre(this.selectedProducto.getNombre());
-                productoTO.setDescripcion(this.selectedProducto.getDescripcion());
-                productoTO.setPrecio(this.selectedProducto.getPrecio());
-                productoTO.setStock(this.selectedProducto.getStock());
+                // Obtiene la ruta de la imagen antigua
+                String rutaImagenAntigua = this.selectedProducto.getRutaImagen();
 
-                servicioProducto.update(productoTO);
+                // Elimina la imagen antigua si existe
+                if (imagenProducto != null && rutaImagenAntigua != null && !rutaImagenAntigua.isEmpty()) {
+                    eliminarImagenAntigua(rutaImagenAntigua);
+                    uploadImage();
+                }
+
+                // Realiza la actualización del producto
+                servicioProducto.update(this.selectedProducto);
 
                 generalHelper.redireccionar("/faces/productos_admin.xhtml");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Producto actualizado"));
@@ -186,6 +217,9 @@ public class ProductoController implements Serializable {
 
     public void deleteProducto() {
         try {
+            String rutaImagenAntigua = this.selectedProducto.getRutaImagen();
+            eliminarImagenAntigua(rutaImagenAntigua);
+
             boolean delete = servicioProducto.delete(this.selectedProducto.getId());
 
             if (delete) {
@@ -202,6 +236,68 @@ public class ProductoController implements Serializable {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    protected void uploadImage() {
+
+        try {
+            String fileName = imagenProducto.getFileName();
+            InputStream file = imagenProducto.getInputStream();
+
+            if (fileName != null) {
+                String destinationFile = RUTA_IMAGEN + "resources\\images\\productos\\";
+
+                // write the inputStream to a FileOutputStream
+                String[] partesArchivo = fileName.split(Pattern.quote("."));
+                String extensionArchivo = partesArchivo[1];
+
+                // Generar un nombre único usando UUID
+                String nombreUnico = UUID.randomUUID().toString();
+
+                //File tmp = new File(destinationFile + fileName);
+                File tmp = new File(destinationFile + nombreUnico + "." + extensionArchivo);
+                tmp.getParentFile().mkdirs();
+                OutputStream out = new FileOutputStream(tmp);
+
+                int read = 0;
+                byte[] bytes = new byte[1024];
+
+                while ((read = file.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
+                }
+
+                file.close();
+                out.flush();
+                out.close();
+
+                selectedProducto.setRutaImagen("/resources/images/productos/" + nombreUnico + "." + extensionArchivo);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+// Nuevo método para eliminar la imagen antigua
+    private void eliminarImagenAntigua(String rutaImagenAntigua) {
+        try {
+            // Construye la ruta completa del archivo
+            String rutaCompleta = RUTA_IMAGEN + rutaImagenAntigua;
+
+            // Verifica si la ruta es válida antes de intentar eliminar la imagen
+            File imagenAntigua = new File(rutaCompleta);
+
+            if (imagenAntigua.exists()) {
+                if (imagenAntigua.delete()) {
+                    System.out.println("Imagen antigua eliminada con éxito");
+                } else {
+                    System.out.println("No se pudo eliminar la imagen antigua");
+                }
+            } else {
+                System.out.println("La imagen antigua no existe en la ruta proporcionada");
+            }
+        } catch (Exception e) {
+            System.out.println("Error al intentar eliminar la imagen antigua: " + e.getMessage());
         }
     }
 
@@ -261,6 +357,7 @@ public class ProductoController implements Serializable {
         this.categoria = categoria;
     }
 
+
     public List<ProductoTO> getListaProductoTienda() {
         return listaProductoTienda;
     }
@@ -275,6 +372,14 @@ public class ProductoController implements Serializable {
 
     public void setTiendaController(TiendaController tiendaController) {
         this.tiendaController = tiendaController;
+
+    public UploadedFile getImagenProducto() {
+        return imagenProducto;
+    }
+
+    public void setImagenProducto(UploadedFile imagenProducto) {
+        this.imagenProducto = imagenProducto;
+
     }
 
 }
