@@ -56,8 +56,6 @@ public class ProductoController implements Serializable {
 
     private CategoriaTO categoriaTO;
 
-
-    int idCategoria;
     int idTienda;
     
     UsuarioTO usuarioTO = new UsuarioTO();
@@ -372,7 +370,8 @@ public class ProductoController implements Serializable {
 
     public void setTiendaController(TiendaController tiendaController) {
         this.tiendaController = tiendaController;
-
+    }
+    
     public UploadedFile getImagenProducto() {
         return imagenProducto;
     }
