@@ -1,0 +1,59 @@
+<ui:composition template="/layouts/cliente_layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+                    
+    <ui:define name="main">
+       
+<div class="card">
+
+
+        
+            
+    <h:form id="tiendas">
+        <div class="tiendas_container" style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
+            <ui:repeat value="#{tiendaController.tiendas}" var="tienda" varStatus="loop">
+
+                <p:card style="width: 280px; margin: 0.5rem;">
+                    <f:facet name="header">
+                        <p:graphicImage name="images/shop.png" alt="1.jpg" />
+                    </f:facet>
+                    <f:facet name="title">
+                        #{tienda.nombre}
+                    </f:facet>
+
+
+                    <p>  #{tienda.descripcion}</p>
+
+                    <f:facet name="footer">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <p:commandButton icon="pi pi-arrow-circle-right" value="Ir a Tienda" styleClass="ui-button-success" style="width: 100%; text-align: center;" 
+                                             actionListener="#{tiendaController.readProductoByTienda(tienda.id, tienda.nombre)}"/>
+
+                        </div>
+                    </f:facet>
+
+                </p:card>
+
+            </ui:repeat>
+
+        </div>
+    </h:form>      
+
+</div>
+        
+
+        
+        
+  
+
+        
+        
+    </ui:define> 
+</ui:composition>
+
+
+
+

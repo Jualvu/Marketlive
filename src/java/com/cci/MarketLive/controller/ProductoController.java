@@ -4,14 +4,18 @@ import com.cci.MarketLive.service.CategoriaService;
 import com.cci.MarketLive.to.ProductoTO;
 import com.cci.MarketLive.service.ProductoService;
 import com.cci.MarketLive.to.CategoriaTO;
+import com.cci.MarketLive.to.UsuarioTO;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import org.primefaces.PrimeFaces;
 
 @ManagedBean(name = "productoController")
@@ -24,7 +28,9 @@ public class ProductoController implements Serializable {
     private GeneralHelper generalHelper;
     private List<ProductoTO> busqueda;
     private List<ProductoTO> listaProductoCategoria;
-
+    private List<ProductoTO> listaProductoTienda;
+    
+    
     private ProductoService servicioProducto;
     private CategoriaService servicioCategoria;
 
@@ -34,7 +40,13 @@ public class ProductoController implements Serializable {
     private CategoriaTO categoriaTO;
 
     int idCategoria;
-
+    int idTienda;
+    
+    UsuarioTO usuarioTO = new UsuarioTO();
+    
+    @ManagedProperty("#{tiendaController}")
+    private TiendaController tiendaController;
+    
     public ProductoController() {
 
         productos = new ArrayList<>();
@@ -49,6 +61,18 @@ public class ProductoController implements Serializable {
             setBusqueda(servicioProducto.listarBusqueda(producto));
 
             setListaProductoCategoria(servicioProducto.readAllByCategoria(idCategoria));
+        
+                    
+            FacesContext context = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = context.getExternalContext();
+
+            // Obtener la sesión
+            HttpSession session = (HttpSession) externalContext.getSession(false);
+
+            // Obtener el atributo de la sesión
+            usuarioTO = (UsuarioTO) session.getAttribute("usuarioTO");
+            
+            
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,6 +106,23 @@ public class ProductoController implements Serializable {
         }
 
     }
+    
+    public void readProductoByTienda(int idTienda2) {
+
+        try {
+
+            idTienda = idTienda2;
+            setListaProductoCategoria(servicioProducto.readAllByTienda(idTienda2));
+
+            for (ProductoTO pro : getListaProductoCategoria()) {
+                System.out.println("sa" + pro.getNombre());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    
 
     public void openNew() {
         this.selectedProducto = new ProductoTO();
@@ -106,6 +147,7 @@ public class ProductoController implements Serializable {
                 productoTO.setPrecio(this.selectedProducto.getPrecio());
                 productoTO.setStock(this.selectedProducto.getStock());
                 productoTO.setCategoriaId(this.selectedProducto.getCategoriaId());
+                productoTO.setTiendaId(this.selectedProducto.getTiendaId());
                 productoTO.setUsuarioId(this.selectedProducto.getUsuarioId());
 
                 servicioProducto.create(productoTO);
@@ -217,6 +259,22 @@ public class ProductoController implements Serializable {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public List<ProductoTO> getListaProductoTienda() {
+        return listaProductoTienda;
+    }
+
+    public void setListaProductoTienda(List<ProductoTO> listaProductoTienda) {
+        this.listaProductoTienda = listaProductoTienda;
+    }
+
+    public TiendaController getTiendaController() {
+        return tiendaController;
+    }
+
+    public void setTiendaController(TiendaController tiendaController) {
+        this.tiendaController = tiendaController;
     }
 
 }

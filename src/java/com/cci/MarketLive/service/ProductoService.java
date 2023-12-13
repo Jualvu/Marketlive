@@ -25,7 +25,7 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
 
             Timestamp fechaActual = Timestamp.valueOf(now);
 
-            String query = "INSERT INTO productos (tipo, codigo, nombre, descripcion, precio, stock, fecha_creado, usuario_id, categoria_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO productos (tipo, codigo, nombre, descripcion, precio, stock, fecha_creado, usuario_id, categoria_id, tienda_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             stmt = super.getConexion().prepareStatement(query);
             stmt.setString(1, objeto.getTipo());
             stmt.setString(2, objeto.getCodigo());
@@ -36,6 +36,7 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
             stmt.setTimestamp(7, fechaActual);
             stmt.setInt(8, 1);
             stmt.setInt(9, objeto.getCategoriaId());
+            stmt.setInt(10, objeto.getTiendaId());
 
             stmt.execute();
 
@@ -52,6 +53,41 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
         }
     }
 
+    public boolean createByUser(ProductoTO objeto, int usuarioId) throws SQLException {
+        try {
+
+            LocalDateTime now = LocalDateTime.now();
+
+            Timestamp fechaActual = Timestamp.valueOf(now);
+
+            String query = "INSERT INTO productos (tipo, codigo, nombre, descripcion, precio, stock, fecha_creado, usuario_id, categoria_id, tienda_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            stmt = super.getConexion().prepareStatement(query);
+            stmt.setString(1, objeto.getTipo());
+            stmt.setString(2, objeto.getCodigo());
+            stmt.setString(3, objeto.getNombre());
+            stmt.setString(4, objeto.getDescripcion());
+            stmt.setDouble(5, objeto.getPrecio());
+            stmt.setDouble(6, objeto.getStock());
+            stmt.setTimestamp(7, fechaActual);
+            stmt.setInt(8, 1);
+            stmt.setInt(9, objeto.getCategoriaId());
+            stmt.setInt(10, objeto.getTiendaId());
+
+            stmt.execute();
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+    
     @Override
     public ProductoTO read(int id) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -151,10 +187,11 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
         productos = new ArrayList<ProductoTO>();
 
         try {
-            stmt = super.getConexion().prepareStatement("SELECT p.*, c.nombre as categoria_nombre "
+            stmt = super.getConexion().prepareStatement("SELECT p.* , c.nombre as categoria_nombre , t.nombre as tienda_nombre "
                     + "FROM productos p "
                     + "INNER JOIN categorias c ON p.categoria_id = c.id "
-                    + "ORDER BY p.id DESC;");
+                    + "INNER JOIN tiendas t ON p.tienda_id = t.id "
+                    + "ORDER BY p.id DESC; ");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -170,6 +207,8 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
                 int usuarioId = rs.getInt("usuario_id");
                 int categoriaId = rs.getInt("categoria_id");
                 String categoriaNombre = rs.getString("categoria_nombre");
+                int tiendaId = rs.getInt("tienda_id");
+                String tiendaNombre = rs.getString("tienda_nombre");
 
                 productoTO.setId(id);
                 productoTO.setTipo(tipo);
@@ -181,6 +220,8 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
                 productoTO.setUsuarioId(usuarioId);
                 productoTO.setCategoriaId(categoriaId);
                 productoTO.setCategoriaNombre(categoriaNombre);
+                productoTO.setTiendaId(tiendaId);
+                productoTO.setTiendaNombre(tiendaNombre);
 
                 productos.add(productoTO);
             }
@@ -206,14 +247,20 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
         productos = new ArrayList<ProductoTO>();
 
         try {
-            stmt = super.getConexion().prepareStatement("SELECT * FROM productos where categoria_id = ?");
+
+            stmt = super.getConexion().prepareStatement("SELECT p.* , c.nombre as categoria_nombre , t.nombre as tienda_nombre "
+                    + "FROM productos p "
+                    + "INNER JOIN categorias c ON p.categoria_id = c.id "
+                    + "INNER JOIN tiendas t ON p.tienda_id = t.id "
+                    + "WHERE categoria_id = ? "
+                    + "ORDER BY p.id DESC; ");
             stmt.setInt(1, idCategoria);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 ProductoTO productoTO = new ProductoTO();
 
-                int id = rs.getInt("id");
+               int id = rs.getInt("id");
                 String tipo = rs.getString("tipo");
                 String codigo = rs.getString("codigo");
                 String nombre = rs.getString("nombre");
@@ -222,6 +269,9 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
                 double stock = rs.getDouble("stock");
                 int usuarioId = rs.getInt("usuario_id");
                 int categoriaId = rs.getInt("categoria_id");
+                String categoriaNombre = rs.getString("categoria_nombre");
+                int tiendaId = rs.getInt("tienda_id");
+                String tiendaNombre = rs.getString("tienda_nombre");
 
                 productoTO.setId(id);
                 productoTO.setTipo(tipo);
@@ -232,6 +282,9 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
                 productoTO.setStock(stock);
                 productoTO.setUsuarioId(usuarioId);
                 productoTO.setCategoriaId(categoriaId);
+                productoTO.setCategoriaNombre(categoriaNombre);
+                productoTO.setTiendaId(tiendaId);
+                productoTO.setTiendaNombre(tiendaNombre);
 
                 productos.add(productoTO);
             }
@@ -248,6 +301,63 @@ public class ProductoService extends Conexion implements ICrud<ProductoTO> {
         return productos;
     }
     
+    public List<ProductoTO> readAllByTienda(int idTienda) throws SQLException {
+        productos = new ArrayList<ProductoTO>();
+
+        try {
+
+            stmt = super.getConexion().prepareStatement("SELECT p.* , c.nombre as categoria_nombre , t.nombre as tienda_nombre "
+                    + "FROM productos p "
+                    + "INNER JOIN categorias c ON p.categoria_id = c.id "
+                    + "INNER JOIN tiendas t ON p.tienda_id = t.id "
+                    + "WHERE tienda_id = ? "
+                    + "ORDER BY p.id DESC; ");
+            stmt.setInt(1, idTienda);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ProductoTO productoTO = new ProductoTO();
+
+               int id = rs.getInt("id");
+                String tipo = rs.getString("tipo");
+                String codigo = rs.getString("codigo");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                double precio = rs.getDouble("precio");
+                double stock = rs.getDouble("stock");
+                int usuarioId = rs.getInt("usuario_id");
+                int categoriaId = rs.getInt("categoria_id");
+                String categoriaNombre = rs.getString("categoria_nombre");
+                int tiendaId = rs.getInt("tienda_id");
+                String tiendaNombre = rs.getString("tienda_nombre");
+
+                productoTO.setId(id);
+                productoTO.setTipo(tipo);
+                productoTO.setCodigo(codigo);
+                productoTO.setNombre(nombre);
+                productoTO.setDescripcion(descripcion);
+                productoTO.setPrecio(precio);
+                productoTO.setStock(stock);
+                productoTO.setUsuarioId(usuarioId);
+                productoTO.setCategoriaId(categoriaId);
+                productoTO.setCategoriaNombre(categoriaNombre);
+                productoTO.setTiendaId(tiendaId);
+                productoTO.setTiendaNombre(tiendaNombre);
+
+                productos.add(productoTO);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null && rs != null) {
+                rs.close();
+                stmt.close();
+            }
+        }
+
+        return productos;
+    }
     
     public List<ProductoTO> listarBusqueda(String producto) throws SQLException {
         productos = new ArrayList<ProductoTO>();
